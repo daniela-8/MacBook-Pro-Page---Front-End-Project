@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple M4 Animation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section style="height: 50vh;"></section>
+
+    <section class="m4-chip-section">
+        <div class="m4-chip-content">
+            <div class="hero-content">
+                <h2>Performance</h2>
+                <h1>Pro all out.</h1>
+            </div>
+
+            <div class="animation-container">
+                <div class="animation-glow-wrapper">
+                    <video id="anim-video" preload="auto" muted playsinline>
+                        <source src="assets/videos/large.mp4" type="video/mp4">
+                    </video>
+                    <img src="assets/images/performance_endframe__dspvqz8ncdoy_large.jpg" alt="M4 Chip final view"
+                        class="anim-image" id="end-frame">
+                </div>
+            </div>
+
+            <div class="description-content">
+                <p>
+                    MacBook Pro features the most advanced lineup of chips ever built for a pro laptop. The M4 family of
+                    chips gives you the kind of speed and capability you’ve never thought possible.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section style="height: 100vh;"></section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="main.js" defer></script>
+</body>
+
+</html>
