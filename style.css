@@ -10,7 +10,10 @@
     --color-background: #000;
     --color-text-primary: #f5f5f7;
     --color-text-secondary: #86868b;
-    --glow-color: rgba(4, 120, 255, 0.35);
+
+    /* Updated glow colors for a more subtle, ambient effect */
+    --glow-ambient-blue: #0d63f2;
+    --glow-ambient-purple: #9c36f2;
 }
 
 body {
@@ -48,7 +51,6 @@ body {
 .animation-container {
     position: relative;
     width: 100%;
-    /* Make the container full width */
     margin: 0 auto;
 }
 
@@ -56,28 +58,18 @@ body {
     position: relative;
     display: grid;
     place-items: center;
-    /* Add this to constrain the video itself while the container is full-width */
     max-width: 1440px;
     margin: 0 auto;
 }
 
-.animation-glow-wrapper::before,
-.animation-glow-wrapper::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--glow-color) 50%, transparent);
-    z-index: 3;
-}
-
-.animation-glow-wrapper::before {
-    top: 0;
-}
-
-.animation-glow-wrapper::after {
-    bottom: 0;
+.glow-border-container {
+    position: relative;
+    grid-area: 1 / 1 / 2 / 2;
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    /* MODIFIED: Removed padding and overflow for a softer bleed */
+    z-index: 2;
 }
 
 #anim-video,
@@ -87,6 +79,7 @@ body {
     height: auto;
     object-fit: cover;
     border-radius: 18px;
+    display: block;
 }
 
 #end-frame {
@@ -94,14 +87,37 @@ body {
 }
 
 #anim-video {
-    z-index: 2;
+    z-index: 3;
 }
+
+/* THE NEW, SOFTER AMBIENT GLOW EFFECT */
+.glow-border-container::before {
+    content: '';
+    position: absolute;
+    /* MODIFIED: Increased inset to make the gradient larger */
+    inset: -100px;
+    background: linear-gradient(90deg,
+            /* A simple left-to-right gradient */
+            var(--glow-ambient-blue),
+            var(--glow-ambient-purple));
+    /* MODIFIED: Drastically increased blur for a soft, wide glow */
+    filter: blur(90px);
+    /* MODIFIED: Reduced opacity for subtlety */
+    opacity: 0.4;
+    z-index: -1;
+    /* MODIFIED: Increased border-radius to prevent sharp corners on the blur */
+    border-radius: 120px;
+    transform: translateZ(0);
+}
+
+/* MODIFIED: We no longer need the ::after element for this simpler effect */
 
 .description-content {
     max-width: 980px;
     width: 90%;
     margin: 15vh auto 0 auto;
     opacity: 0;
+    text-align: center;
 }
 
 .description-content p {
@@ -109,5 +125,11 @@ body {
     line-height: 1.5;
     font-weight: 600;
     color: var(--color-text-secondary);
-    max-width: 420px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.description-content p strong {
+    color: var(--color-text-primary);
 }

@@ -6,25 +6,35 @@ const section = document.querySelector('.m4-chip-section');
 const video = document.querySelector('#anim-video');
 const descriptionContent = document.querySelector('.description-content');
 const animationContainer = document.querySelector('.animation-container');
+const glowContainer = document.querySelector('.glow-border-container');
 
-let scrub = {
-    time: 0
-};
+// A variable to hold the scroll animation timeline
+let videoScrubTl;
 
 const setupAnimation = () => {
-    // Make the timeline slightly longer for more granular control
-    const tl = gsap.timeline({
+    // Ensure the video is paused and reset to the beginning
+    video.pause();
+    video.currentTime = 0;
+
+    let scrub = { time: 0 };
+
+    if (videoScrubTl) {
+        videoScrubTl.kill();
+    }
+
+    videoScrubTl = gsap.timeline({
         scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: "+=5000", // A longer scroll distance feels more premium
+            // MODIFIED: Reduced this value to shorten the scroll duration
+            end: "+=3000",
             scrub: 1.8,
             pin: animationContainer,
         }
     });
 
-    // Animate the video's currentTime using our scrub object
-    tl.to(scrub, {
+    // Animate the video's currentTime
+    videoScrubTl.to(scrub, {
         time: video.duration,
         ease: "none",
         onUpdate: () => {
@@ -34,15 +44,13 @@ const setupAnimation = () => {
         }
     });
 
-    // Fade the video out to reveal the static image underneath.
-    // Start this fade slightly before the scroll ends for a smoother transition.
-    tl.to(video, {
+    // Fade the entire glow container out
+    videoScrubTl.to(glowContainer, {
         opacity: 0,
-        duration: 1
-    }, "-=0.5"); // Start 0.5 "seconds" before the end of the video scrub
+        duration: 0.5
+    });
 
-    // Animate the description content in.
-    // This animation is also scrubbed, appearing as you scroll past the pinned video.
+    // Animate the description content in, but faster.
     gsap.fromTo(descriptionContent, {
         opacity: 0,
         y: 50
@@ -52,16 +60,20 @@ const setupAnimation = () => {
         ease: "power1.inOut",
         scrollTrigger: {
             trigger: descriptionContent,
-            start: "top 80%", // Start when the top of the element is 80% from the viewport top
-            end: "top 50%",
+            start: "top 80%",
+            end: "top 70%",
             scrub: true,
         }
     });
 };
 
-// Robust loading check to ensure video metadata is ready before setting up the animation
-if (video.readyState >= 1) {
-    setupAnimation();
-} else {
-    video.addEventListener('loadedmetadata', setupAnimation);
-}
+// Robust loading check to ensure video metadata is ready
+const init = () => {
+    if (video.readyState >= 2) {
+        setupAnimation();
+    } else {
+        video.addEventListener('loadeddata', setupAnimation);
+    }
+};
+
+init();
