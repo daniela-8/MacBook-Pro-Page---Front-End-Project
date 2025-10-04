@@ -16,6 +16,183 @@
     --glow-ambient-purple: #9c36f2;
 }
 
+/* =============================== */
+/* Main Header Navigation          */
+/* =============================== */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    background-color: rgba(29, 29, 31, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+.main-nav {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 22px;
+}
+
+.nav-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+}
+
+.nav-item a {
+    display: inline-block;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-size: 12px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    padding: 0 8px;
+    /* Added for better spacing on mobile */
+}
+
+.nav-item a:hover {
+    opacity: 1;
+}
+
+.nav-item svg {
+    fill: currentColor;
+    display: block;
+    /* Ensures SVG alignment */
+}
+
+/* Hide text links on smaller screens */
+@media (max-width: 833px) {
+    .nav-item:not(:first-child):not(:nth-last-child(1)):not(:nth-last-child(2)) a {
+        display: none;
+    }
+}
+
+/* =============================== */
+/* Sub-header (Education Savings)  */
+/* =============================== */
+.sub-header {
+    margin-top: 44px;
+    /* Height of the main nav bar */
+    padding: 12px 0;
+    background-color: #1d1d1f;
+    text-align: center;
+    font-size: 14px;
+}
+
+.sub-header a {
+    color: #2997ff;
+    text-decoration: none;
+}
+
+.sub-header a:hover {
+    text-decoration: underline;
+}
+
+/* =============================== */
+/* New Hero Section                */
+/* =============================== */
+.hero-section {
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    padding-top: 60px;
+    overflow: hidden;
+    /* Prevents overflow issues */
+}
+
+.hero-text-container {
+    margin-bottom: 20px;
+}
+
+.hero-title {
+    font-size: clamp(2rem, 5.5vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+    font-size: clamp(3.5rem, 9vw, 6rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #ffb6ff, #b344ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero-image-container {
+    width: 100%;
+    max-width: 1200px;
+    /* Adjust as needed */
+    margin-top: 50px;
+    /* Pulls the image up slightly */
+    display: grid;
+    place-items: center;
+}
+
+.hero-media {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    grid-area: 1 / 1;
+    /* Place both video and image in the same grid cell */
+    transition: opacity 0.5s ease-in-out;
+}
+
+#hero-endframe {
+    opacity: 0;
+    /* Hide the end-frame image initially */
+    z-index: 1;
+}
+
+#hero-video {
+    z-index: 2;
+    /* Ensure video is on top to start */
+}
+
+
+
+.hero-cta-container {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.buy-button {
+    background-color: #0071e3;
+    color: #fff;
+    border: none;
+    border-radius: 980px;
+    padding: 12px 22px;
+    font-size: 17px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+    background-color: #0077ed;
+}
+
+.pricing-text {
+    margin-top: 45px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+}
+
 body {
     background-color: var(--color-background);
     color: var(--color-text-primary);
@@ -218,5 +395,75 @@ Performance Comparison Section
         max-width: 280px;
         margin-left: auto;
         margin-right: auto;
+    }
+}
+
+/* Style the main link container for the Apple logo */
+.globalnav-link-apple,
+.global-link-search,
+.global-link-bag {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    /* This matches the padding from your screenshot */
+    height: 44px;
+    /* This matches the height from your screenshot */
+    /* Removes extra space around the SVG */
+}
+
+/* Control the color of the SVG logo */
+/* Control the color and alignment of the Apple logo SVG */
+.globalnav-link-apple svg {
+    position: relative;
+    top: 4px;
+    /* Keeps the Apple logo as it was */
+    fill: var(--color-text-primary);
+}
+
+/* Control the color and alignment of the Search icon SVG */
+.globalnav-link-search svg {
+    position: relative;
+    top: 4px;
+    /* Increased value to move it lower. Adjust as needed. */
+    fill: var(--color-text-primary);
+}
+
+/* Control the color and alignment of the Bag icon SVG */
+.globalnav-link-bag svg {
+    position: relative;
+    top: 5px;
+    /* Nudges the bag down. Adjust this value as needed. */
+    fill: var(--color-text-primary);
+}
+
+/* Visually hide the text, but keep it for screen readers */
+.globalnav-link-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Hide the compact logo on larger screens (desktop first) */
+.globalnav-image-compact {
+    display: none;
+}
+
+
+/* ---- RESPONSIVE BEHAVIOR ---- */
+/* On screens 833px or less, switch to the compact logo */
+@media (max-width: 833px) {
+
+    /* Hide the regular logo */
+    .globalnav-image-regular {
+        display: none;
+    }
+
+    /* Show the compact logo */
+    .globalnav-image-compact {
+        display: inline-block;
     }
 }

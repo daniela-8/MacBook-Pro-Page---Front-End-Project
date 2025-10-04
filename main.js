@@ -1,5 +1,40 @@
 'use strict';
 
+// =======================================================
+// START: Code for the NEW Hero Section (First Section)
+// =======================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Animate the hero text and CTA content in on page load
+    gsap.from('.hero-text-container > *, .hero-cta-container > *', {
+        opacity: 0,
+        y: 30,
+        stagger: 0.15,
+        duration: 1,
+        ease: 'power2.out'
+    });
+
+    // 2. Handle the video-to-image transition
+    const heroVideo = document.getElementById('hero-video');
+    const heroEndframe = document.getElementById('hero-endframe');
+
+    // Check if the video element exists
+    if (heroVideo) {
+        // Add an event listener for when the video finishes playing
+        heroVideo.addEventListener('ended', () => {
+            // Use GSAP for a smooth fade transition
+            gsap.to(heroVideo, { opacity: 0, duration: 0.75 });
+            gsap.to(heroEndframe, { opacity: 1, duration: 0.75 });
+        });
+    }
+});
+// =======================================================
+// END: Code for the NEW Hero Section
+// =======================================================
+
+
+// =======================================================
+// START: Your ORIGINAL code for the M4 Chip (Second Section)
+// =======================================================
 gsap.registerPlugin(ScrollTrigger);
 
 const section = document.querySelector('.m4-chip-section');
@@ -26,7 +61,6 @@ const setupAnimation = () => {
         scrollTrigger: {
             trigger: section,
             start: "top top",
-            // MODIFIED: Reduced this value to shorten the scroll duration
             end: "+=3000",
             scrub: 1.8,
             pin: animationContainer,
@@ -75,7 +109,6 @@ const init = () => {
         video.addEventListener('loadeddata', setupAnimation);
     }
 };
-// --- Add this to the end of your main.js file ---
 
 // Animate the performance comparison items on scroll
 gsap.from(".comparison-item", {
@@ -91,3 +124,6 @@ gsap.from(".comparison-item", {
 });
 
 init();
+// =======================================================
+// END: Your ORIGINAL code
+// =======================================================
