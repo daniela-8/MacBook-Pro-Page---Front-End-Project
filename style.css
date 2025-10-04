@@ -133,3 +133,90 @@ body {
 .description-content p strong {
     color: var(--color-text-primary);
 }
+
+/*
+========================================
+Performance Comparison Section
+========================================
+*/
+.performance-comparison {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    /* Adjust gap between columns */
+    max-width: 980px;
+    margin: 10vh auto 0 auto;
+    /* Adds space above the section */
+    text-align: left;
+}
+
+.gradient-line {
+    position: relative;
+    height: 2px;
+    width: 100%;
+    margin-bottom: 24px;
+    /* This gradient is matched to the colors in your image */
+    background: linear-gradient(90deg, #4c87f8, #6356f6, #9c36f2, #e54b8d);
+    isolation: isolate;
+}
+
+.gradient-line::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 250%;
+    transform: translateY(-50%);
+    background: inherit;
+    /* Uses the same gradient as the parent */
+    transform: translateY(-50%);
+    filter: blur(7px);
+    /* Creates the glow */
+    opacity: 0.8;
+    /* Adjust glow intensity */
+    z-index: -1;
+    /* Places the glow behind the line */
+}
+
+.comparison-text p {
+    font-size: 1rem;
+    font-weight: 400;
+    /* Regular weight for descriptive text */
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+.comparison-text h2 {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    /* Responsive font size */
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.015em;
+    margin: 12px 0;
+}
+
+.comparison-text sup {
+    font-size: 0.8em;
+    /* Nudge the superscript up slightly for better alignment */
+    vertical-align: super;
+    padding-left: 2px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .performance-comparison {
+        grid-template-columns: 1fr;
+        /* Stack columns vertically */
+        gap: 50px;
+        /* Increase gap for vertical layout */
+        text-align: center;
+        /* Center text on mobile */
+    }
+
+    .gradient-line {
+        max-width: 280px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

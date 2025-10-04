@@ -75,5 +75,19 @@ const init = () => {
         video.addEventListener('loadeddata', setupAnimation);
     }
 };
+// --- Add this to the end of your main.js file ---
+
+// Animate the performance comparison items on scroll
+gsap.from(".comparison-item", {
+    opacity: 0,
+    y: 40,
+    ease: "power2.out",
+    stagger: 0.2, // Adds a slight delay between each item animating in
+    scrollTrigger: {
+        trigger: ".performance-comparison",
+        start: "top 85%", // Starts animation when the section is 85% from the top
+        toggleActions: "play none none none",
+    }
+});
 
 init();
