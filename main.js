@@ -123,7 +123,32 @@ gsap.from(".comparison-item", {
     }
 });
 
+// =======================================================
+// START: MODIFIED SCROLLTRIGGER FOR HEADER VISIBILITY
+// =======================================================
+const initialHeaders = document.querySelector('#initial-headers');
+const localNav = document.querySelector('.local-nav');
+const heroSection = document.querySelector('.hero-section');
+
+// The new, updated ScrollTrigger
+ScrollTrigger.create({
+    trigger: heroSection,
+    // The switch happens when the bottom of the hero section is 52px
+    // from the top of the viewport (the height of the local nav)
+    start: "bottom 52px",
+
+    // When scrolling DOWN past the trigger point
+    onEnter: () => {
+        initialHeaders.classList.add('is-hidden');
+        localNav.classList.add('is-visible');
+    },
+
+    // When scrolling UP past the trigger point
+    onLeaveBack: () => {
+        initialHeaders.classList.remove('is-hidden');
+        localNav.classList.remove('is-visible');
+    }
+});
+
+
 init();
-// =======================================================
-// END: Your ORIGINAL code
-// =======================================================
