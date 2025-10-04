@@ -108,36 +108,37 @@
 }
 
 .hero-text-container {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .hero-title {
-    font-size: clamp(2rem, 5.5vw, 3.5rem);
-    font-weight: 600;
+    font-size: 2rem;
+    font-weight: 450;
     letter-spacing: -0.015em;
-    color: var(--color-text-secondary);
-    margin-bottom: 0.5rem;
+    color: #ffffff;
+    letter-spacing: .01em;
+    margin-top: 50px;
+    margin-bottom: -125px;
 }
 
-.hero-subtitle {
-    font-size: clamp(3.5rem, 9vw, 6rem);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.05;
-}
-
-.gradient-text {
-    background: linear-gradient(90deg, #ffb6ff, #b344ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+.hero-subtitle-image {
+    width: 90%;
+    /* Makes the image responsive */
+    max-width: 850px;
+    /* Prevents it from getting too large on big screens */
+    height: auto;
+    /* Maintains the aspect ratio */
+    display: block;
+    margin: 0 auto 1rem;
+    /* Ensures it behaves like a block element */
+    /* Adds some space below the image */
 }
 
 .hero-image-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     /* Adjust as needed */
-    margin-top: 50px;
+    margin-top: -150px;
     /* Pulls the image up slightly */
     display: grid;
     place-items: center;
@@ -164,7 +165,6 @@
 }
 
 
-
 .hero-cta-container {
     margin-top: 30px;
     margin-bottom: 20px;
@@ -189,7 +189,7 @@
 
 .pricing-text {
     margin-top: 45px;
-    font-size: 14px;
+    font-size: 20px;
     color: var(--color-text-secondary);
 }
 
