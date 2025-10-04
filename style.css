@@ -16,40 +16,23 @@
 body {
     background-color: var(--color-background);
     color: var(--color-text-primary);
-    /* Apple uses SF Pro, but Inter is a great open-source alternative */
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* This is our main pinned container */
 .m4-chip-section {
-    height: 100vh;
-    /* It needs a defined height for pinning to work */
-    display: grid;
-    place-items: center;
+    padding-top: 10vh;
+    padding-bottom: 20vh;
 }
-
-/* This content wrapper holds everything and controls the max width */
-.m4-chip-content {
-    width: 100%;
-    max-width: 980px;
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: relative;
-    height: 100%;
-    justify-content: center;
-}
-
 
 .hero-content {
-    width: 100%;
+    max-width: 980px;
+    width: 90%;
+    margin: 0 auto 5vh auto;
     text-align: left;
-    margin-bottom: 5vh;
 }
 
 .hero-content h2 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--color-text-secondary);
     margin-bottom: 0.5rem;
@@ -57,26 +40,25 @@ body {
 }
 
 .hero-content h1 {
-    font-size: clamp(3rem, 8vw, 5.5rem);
-    /* Fluid font size */
+    font-size: clamp(3rem, 6vw, 5rem);
     font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
 }
 
 .animation-container {
     position: relative;
     width: 100%;
-    margin-top: 5vh;
+    /* Make the container full width */
+    margin: 0 auto;
 }
 
 .animation-glow-wrapper {
     position: relative;
     display: grid;
     place-items: center;
-    width: 100%;
-    /* Modern aspect-ratio for responsive video */
-    aspect-ratio: 1440 / 740;
+    /* Add this to constrain the video itself while the container is full-width */
+    max-width: 1440px;
+    margin: 0 auto;
 }
 
 .animation-glow-wrapper::before,
@@ -88,7 +70,6 @@ body {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--glow-color) 50%, transparent);
     z-index: 3;
-    opacity: 0.5;
 }
 
 .animation-glow-wrapper::before {
@@ -101,18 +82,15 @@ body {
 
 #anim-video,
 #end-frame {
-    /* This makes both the video and image fill the grid cell */
     grid-area: 1 / 1 / 2 / 2;
     width: 100%;
-    height: 100%;
+    height: auto;
     object-fit: cover;
     border-radius: 18px;
 }
 
 #end-frame {
     z-index: 1;
-    opacity: 0;
-    /* The end frame starts invisible */
 }
 
 #anim-video {
@@ -120,24 +98,16 @@ body {
 }
 
 .description-content {
-    width: 100%;
-    margin-top: 5vh;
-    opacity: 0;
-    /* Start hidden for the GSAP animation */
-    /* Positioned absolutely to appear in the same spot as the video fades */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     max-width: 980px;
-    padding: 0 20px;
+    width: 90%;
+    margin: 15vh auto 0 auto;
+    opacity: 0;
 }
 
 .description-content p {
-    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+    font-size: 1.25rem;
     line-height: 1.5;
     font-weight: 600;
     color: var(--color-text-secondary);
-    max-width: 450px;
-    /* Constrain the paragraph width */
+    max-width: 420px;
 }

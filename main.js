@@ -2,64 +2,66 @@
 
 gsap.registerPlugin(ScrollTrigger);
 
+const section = document.querySelector('.m4-chip-section');
 const video = document.querySelector('#anim-video');
-const endFrame = document.querySelector('#end-frame');
+const descriptionContent = document.querySelector('.description-content');
+const animationContainer = document.querySelector('.animation-container');
 
-// Wait until the video's metadata is loaded to get its duration
-video.addEventListener('loadedmetadata', () => {
-    // Main timeline for the whole section
+let scrub = {
+    time: 0
+};
+
+const setupAnimation = () => {
+    // Make the timeline slightly longer for more granular control
     const tl = gsap.timeline({
         scrollTrigger: {
-            trigger: ".m4-chip-section", // Pin the main section
+            trigger: section,
             start: "top top",
-            end: "+=400%", // The animation will play out over a scroll distance of 400% of the viewport height
-            scrub: 1.5, // Smooth scrubbing
-            pin: true,
-            // markers: true // Uncomment for debugging
+            end: "+=5000", // A longer scroll distance feels more premium
+            scrub: 1.8,
+            pin: animationContainer,
         }
     });
 
-    // 1. Video Scrubbing
-    // We use a proxy object to animate the video's currentTime
-    let videoTime = { frame: 0 };
-    tl.to(videoTime, {
-        frame: video.duration,
+    // Animate the video's currentTime using our scrub object
+    tl.to(scrub, {
+        time: video.duration,
         ease: "none",
         onUpdate: () => {
-            video.currentTime = videoTime.frame;
+            if (!isNaN(video.duration)) {
+                video.currentTime = scrub.time;
+            }
         }
-    }, 0); // Start at the beginning of the timeline
+    });
 
-    // 2. Crossfade from Video to End Frame
-    // Fade the video out and the end frame in simultaneously for a smooth transition.
-    // We start this animation slightly before the video scrub is complete.
-    tl.to([video, ".animation-glow-wrapper::before", ".animation-glow-wrapper::after"], {
+    // Fade the video out to reveal the static image underneath.
+    // Start this fade slightly before the scroll ends for a smoother transition.
+    tl.to(video, {
         opacity: 0,
-        duration: 0.3
-    }, "-=0.4") // Start 0.4s (in timeline time) before the previous animation ends
-        .to(endFrame, {
-            opacity: 1,
-            duration: 0.3
-        }, "<"); // "<" means start at the same time as the previous animation
+        duration: 1
+    }, "-=0.5"); // Start 0.5 "seconds" before the end of the video scrub
 
-    // 3. Animate Text In
-    // As the video fades, the hero text fades out and the description content fades in.
-    tl.to(".hero-content", {
+    // Animate the description content in.
+    // This animation is also scrubbed, appearing as you scroll past the pinned video.
+    gsap.fromTo(descriptionContent, {
         opacity: 0,
-        y: -50,
-        duration: 0.5
-    }, "<") // Also start this at the same time
-        .fromTo(".description-content", {
-            opacity: 0,
-            y: 50
-        }, {
-            opacity: 1,
-            y: 0,
-            duration: 0.5
-        }, ">-0.2"); // ">-0.2" means start 0.2s before the previous animation completes
-});
+        y: 50
+    }, {
+        opacity: 1,
+        y: 0,
+        ease: "power1.inOut",
+        scrollTrigger: {
+            trigger: descriptionContent,
+            start: "top 80%", // Start when the top of the element is 80% from the viewport top
+            end: "top 50%",
+            scrub: true,
+        }
+    });
+};
 
-// Fallback in case the video is already loaded from cache
-if (video.readyState >= 2) {
-    video.dispatchEvent(new Event('loadedmetadata'));
+// Robust loading check to ensure video metadata is ready before setting up the animation
+if (video.readyState >= 1) {
+    setupAnimation();
+} else {
+    video.addEventListener('loadedmetadata', setupAnimation);
 }
