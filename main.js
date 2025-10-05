@@ -1,10 +1,11 @@
 'use strict';
 
 // =======================================================
-// START: Code for the NEW Hero Section (First Section)
+//  RUN CODE AFTER THE PAGE IS FULLY LOADED
 // =======================================================
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Animate the hero text and CTA content in on page load
+
+    // --- 1. HERO SECTION ANIMATION ---
     gsap.from('.hero-text-container > *, .hero-cta-container > *', {
         opacity: 0,
         y: 30,
@@ -13,27 +14,180 @@ document.addEventListener('DOMContentLoaded', () => {
         ease: 'power2.out'
     });
 
-    // 2. Handle the video-to-image transition
     const heroVideo = document.getElementById('hero-video');
     const heroEndframe = document.getElementById('hero-endframe');
-
-    // Check if the video element exists
     if (heroVideo) {
-        // Add an event listener for when the video finishes playing
         heroVideo.addEventListener('ended', () => {
-            // Use GSAP for a smooth fade transition
             gsap.to(heroVideo, { opacity: 0, duration: 0.75 });
             gsap.to(heroEndframe, { opacity: 1, duration: 0.75 });
         });
     }
+
+    // --- 2. HIGHLIGHTS GALLERY LOGIC (FIXED AUTOPLAY & RESUME) ---
+    const track = document.querySelector('.gallery-track');
+    const items = document.querySelectorAll('.gallery-item');
+    const dots = document.querySelectorAll('.dot-btn');
+    const playPauseBtn = document.querySelector('.play-pause-btn');
+
+    if (track && items.length > 0 && dots.length > 0 && playPauseBtn) {
+
+        let currentIndex = 0;
+        let isAutoplaying = false;
+        let autoplayTimeout;
+        const IMAGE_SLIDE_DURATION = 4000;
+
+        // This function only handles the visual update of slides
+        function updateGallery(newIndex) {
+            clearTimeout(autoplayTimeout);
+
+            const currentVideo = items[currentIndex].querySelector('video');
+            if (currentVideo) {
+                currentVideo.pause();
+            }
+
+            items.forEach(item => {
+                item.classList.remove('active', 'previous', 'next');
+            });
+            dots[currentIndex].classList.remove('active');
+
+            currentIndex = newIndex;
+
+            items[currentIndex].classList.add('active');
+            dots[currentIndex].classList.add('active');
+
+            const prevIndex = (currentIndex - 1 + items.length) % items.length;
+            const nextIndex = (currentIndex + 1) % items.length;
+            items[prevIndex].classList.add('previous');
+            items[nextIndex].classList.add('next');
+
+            if (isAutoplaying) {
+                advanceSlide();
+            }
+        }
+
+        // This function starts media on a NEW slide (always from the beginning)
+        function advanceSlide() {
+            clearTimeout(autoplayTimeout);
+
+            const currentSlide = items[currentIndex];
+            const mediaType = currentSlide.dataset.mediaType;
+            const video = currentSlide.querySelector('video');
+
+            if (mediaType === 'video' && video) {
+                video.currentTime = 0; // Always reset for a new slide
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.error("Autoplay was prevented:", error);
+                        stopAutoplay();
+                    });
+                }
+            } else {
+                autoplayTimeout = setTimeout(goToNextSlide, IMAGE_SLIDE_DURATION);
+            }
+        }
+
+        function goToNextSlide() {
+            const nextIndex = (currentIndex + 1) % items.length;
+            if (nextIndex === 0) {
+                stopAutoplay(true);
+                updateGallery(nextIndex);
+            } else {
+                updateGallery(nextIndex);
+            }
+        }
+
+        // This function RESUMES or starts media on the CURRENT slide
+        function startAutoplay() {
+            isAutoplaying = true;
+            playPauseBtn.classList.add('is-playing');
+            playPauseBtn.classList.remove('is-replaying');
+            playPauseBtn.setAttribute('aria-label', 'Pause gallery');
+
+            const currentSlide = items[currentIndex];
+            const mediaType = currentSlide.dataset.mediaType;
+            const video = currentSlide.querySelector('video');
+
+            if (mediaType === 'video' && video) {
+                if (video.ended) {
+                    video.currentTime = 0;
+                }
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.error("Playback failed:", error);
+                        stopAutoplay();
+                    });
+                }
+            } else {
+                // If it's an image, start the timer to the next slide
+                autoplayTimeout = setTimeout(goToNextSlide, IMAGE_SLIDE_DURATION);
+            }
+        }
+
+        function stopAutoplay(showReplay = false) {
+            isAutoplaying = false;
+            clearTimeout(autoplayTimeout);
+
+            const currentVideo = items[currentIndex].querySelector('video');
+            if (currentVideo) {
+                currentVideo.pause();
+            }
+
+            playPauseBtn.classList.remove('is-playing');
+            playPauseBtn.setAttribute('aria-label', 'Play gallery');
+
+            if (showReplay) {
+                playPauseBtn.classList.add('is-replaying');
+                playPauseBtn.setAttribute('aria-label', 'Replay gallery');
+            }
+        }
+
+        playPauseBtn.addEventListener('click', () => {
+            if (playPauseBtn.classList.contains('is-replaying')) {
+                updateGallery(0);
+                startAutoplay();
+                return;
+            }
+            if (isAutoplaying) {
+                stopAutoplay();
+            } else {
+                startAutoplay();
+            }
+        });
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const newIndex = parseInt(dot.dataset.index);
+                if (newIndex !== currentIndex) {
+                    stopAutoplay();
+                    playPauseBtn.classList.remove('is-replaying');
+                    updateGallery(newIndex);
+                }
+            });
+        });
+
+        items.forEach(item => {
+            const video = item.querySelector('video');
+            if (video) {
+                video.addEventListener('ended', () => {
+                    if (isAutoplaying) {
+                        goToNextSlide();
+                    }
+                });
+            }
+        });
+
+        updateGallery(0);
+
+    } else {
+        console.error('Highlights gallery elements not found.');
+    }
 });
-// =======================================================
-// END: Code for the NEW Hero Section
-// =======================================================
 
 
 // =======================================================
-// START: Your ORIGINAL code for the M4 Chip (Second Section)
+// M4 CHIP SCROLLING ANIMATION (Second Section)
 // =======================================================
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,20 +197,16 @@ const descriptionContent = document.querySelector('.description-content');
 const animationContainer = document.querySelector('.animation-container');
 const glowContainer = document.querySelector('.glow-border-container');
 
-// A variable to hold the scroll animation timeline
 let videoScrubTl;
 
 const setupAnimation = () => {
-    // Ensure the video is paused and reset to the beginning
+    if (!video || !section || !animationContainer || !glowContainer) return;
     video.pause();
     video.currentTime = 0;
-
     let scrub = { time: 0 };
-
     if (videoScrubTl) {
         videoScrubTl.kill();
     }
-
     videoScrubTl = gsap.timeline({
         scrollTrigger: {
             trigger: section,
@@ -66,8 +216,6 @@ const setupAnimation = () => {
             pin: animationContainer,
         }
     });
-
-    // Animate the video's currentTime
     videoScrubTl.to(scrub, {
         time: video.duration,
         ease: "none",
@@ -77,78 +225,72 @@ const setupAnimation = () => {
             }
         }
     });
-
-    // Fade the entire glow container out
     videoScrubTl.to(glowContainer, {
         opacity: 0,
         duration: 0.5
     });
-
-    // Animate the description content in, but faster.
-    gsap.fromTo(descriptionContent, {
-        opacity: 0,
-        y: 50
-    }, {
-        opacity: 1,
-        y: 0,
-        ease: "power1.inOut",
-        scrollTrigger: {
-            trigger: descriptionContent,
-            start: "top 80%",
-            end: "top 70%",
-            scrub: true,
-        }
-    });
+    if (descriptionContent) {
+        gsap.fromTo(descriptionContent, {
+            opacity: 0,
+            y: 50
+        }, {
+            opacity: 1,
+            y: 0,
+            ease: "power1.inOut",
+            scrollTrigger: {
+                trigger: descriptionContent,
+                start: "top 80%",
+                end: "top 70%",
+                scrub: true,
+            }
+        });
+    }
 };
 
-// Robust loading check to ensure video metadata is ready
 const init = () => {
-    if (video.readyState >= 2) {
+    if (video && video.readyState >= 2) {
         setupAnimation();
-    } else {
+    } else if (video) {
         video.addEventListener('loadeddata', setupAnimation);
     }
 };
 
-// Animate the performance comparison items on scroll
 gsap.from(".comparison-item", {
     opacity: 0,
     y: 40,
     ease: "power2.out",
-    stagger: 0.2, // Adds a slight delay between each item animating in
+    stagger: 0.2,
     scrollTrigger: {
         trigger: ".performance-comparison",
-        start: "top 85%", // Starts animation when the section is 85% from the top
+        start: "top 85%",
         toggleActions: "play none none none",
     }
 });
 
+
 // =======================================================
-// START: MODIFIED SCROLLTRIGGER FOR HEADER VISIBILITY
+//  HEADER VISIBILITY SCROLLTRIGGER
 // =======================================================
 const initialHeaders = document.querySelector('#initial-headers');
 const localNav = document.querySelector('.local-nav');
 const heroSection = document.querySelector('.hero-section');
 
-// The new, updated ScrollTrigger
-ScrollTrigger.create({
-    trigger: heroSection,
-    // The switch happens when the bottom of the hero section is 52px
-    // from the top of the viewport (the height of the local nav)
-    start: "bottom 52px",
+if (initialHeaders && localNav && heroSection) {
+    ScrollTrigger.create({
+        trigger: heroSection,
+        start: "bottom 52px",
+        onEnter: () => {
+            initialHeaders.classList.add('is-hidden');
+            localNav.classList.add('is-visible');
+        },
+        onLeaveBack: () => {
+            initialHeaders.classList.remove('is-hidden');
+            localNav.classList.remove('is-visible');
+        }
+    });
+}
 
-    // When scrolling DOWN past the trigger point
-    onEnter: () => {
-        initialHeaders.classList.add('is-hidden');
-        localNav.classList.add('is-visible');
-    },
-
-    // When scrolling UP past the trigger point
-    onLeaveBack: () => {
-        initialHeaders.classList.remove('is-hidden');
-        localNav.classList.remove('is-visible');
-    }
-});
-
-
+// =======================================================
+//  INITIALIZE ANIMATIONS
+// =======================================================
 init();

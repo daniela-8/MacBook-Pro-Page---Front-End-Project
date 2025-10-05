@@ -10,10 +10,14 @@
     --color-background: #000;
     --color-text-primary: #f5f5f7;
     --color-text-secondary: #86868b;
-
-    /* Updated glow colors for a more subtle, ambient effect */
     --glow-ambient-blue: #0d63f2;
     --glow-ambient-purple: #9c36f2;
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* =============================== */
@@ -34,7 +38,6 @@
     transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
 }
 
-/* This is the new class that will hide the initial headers */
 #initial-headers.is-hidden {
     transform: translateY(-100%);
     opacity: 0;
@@ -62,7 +65,6 @@
     opacity: 0.8;
     transition: opacity 0.3s ease;
     padding: 0 8px;
-    /* Added for better spacing on mobile */
 }
 
 .nav-item a:hover {
@@ -72,13 +74,60 @@
 .nav-item svg {
     fill: currentColor;
     display: block;
-    /* Ensures SVG alignment */
 }
 
-/* Hide text links on smaller screens */
+.globalnav-link-apple,
+.global-link-search,
+.global-link-bag {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    height: 44px;
+}
+
+.globalnav-link-apple svg {
+    position: relative;
+    top: 4px;
+    fill: var(--color-text-primary);
+}
+
+.globalnav-link-search svg {
+    position: relative;
+    top: 4px;
+    fill: var(--color-text-primary);
+}
+
+.globalnav-link-bag svg {
+    position: relative;
+    top: 5px;
+    fill: var(--color-text-primary);
+}
+
+.globalnav-link-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.globalnav-image-compact {
+    display: none;
+}
+
 @media (max-width: 833px) {
     .nav-item:not(:first-child):not(:nth-last-child(1)):not(:nth-last-child(2)) a {
         display: none;
+    }
+
+    .globalnav-image-regular {
+        display: none;
+    }
+
+    .globalnav-image-compact {
+        display: inline-block;
     }
 }
 
@@ -86,7 +135,6 @@
 /* Sub-header (Education Savings)  */
 /* =============================== */
 .sub-header {
-    /* Height of the main nav bar */
     padding: 12px 0;
     background-color: #1d1d1f;
     text-align: center;
@@ -103,7 +151,98 @@
 }
 
 /* =============================== */
-/* New Hero Section                */
+/* Local Navigation                */
+/* =============================== */
+.local-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1d1d1f;
+    z-index: 998;
+    padding: 8px 0;
+    height: 52px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+}
+
+.local-nav.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.local-nav-content {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.local-nav-title {
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.local-nav-links {
+    display: flex;
+    list-style: none;
+    margin-left: 50px;
+    flex-grow: 1;
+}
+
+.local-nav-group-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.local-nav-links a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 12px;
+    padding: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.local-nav-links a:hover {
+    color: var(--color-text-primary);
+}
+
+.local-nav-links a.current {
+    color: var(--color-text-primary);
+}
+
+.local-nav-buy-button {
+    background-color: #0071e3;
+    color: #fff;
+    border: none;
+    border-radius: 980px;
+    padding: 4px 11px;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.local-nav-buy-button:hover {
+    background-color: #0077ed;
+}
+
+@media (max-width: 833px) {
+    .local-nav-links {
+        display: none;
+    }
+}
+
+/* =============================== */
+/* Hero Section                    */
 /* =============================== */
 .hero-section {
     min-height: 95vh;
@@ -114,7 +253,6 @@
     text-align: center;
     padding-top: 60px;
     overflow: hidden;
-    /* Prevents overflow issues */
 }
 
 .hero-text-container {
@@ -124,32 +262,24 @@
 .hero-title {
     font-size: 2rem;
     font-weight: 450;
-    letter-spacing: -0.015em;
-    color: #ffffff;
     letter-spacing: .01em;
+    color: #ffffff;
     margin-top: 50px;
     margin-bottom: -125px;
 }
 
 .hero-subtitle-image {
     width: 90%;
-    /* Makes the image responsive */
     max-width: 850px;
-    /* Prevents it from getting too large on big screens */
     height: auto;
-    /* Maintains the aspect ratio */
     display: block;
     margin: 0 auto 1rem;
-    /* Ensures it behaves like a block element */
-    /* Adds some space below the image */
 }
 
 .hero-image-container {
     width: 100%;
     max-width: 1400px;
-    /* Adjust as needed */
     margin-top: -150px;
-    /* Pulls the image up slightly */
     display: grid;
     place-items: center;
 }
@@ -159,21 +289,17 @@
     height: auto;
     object-fit: cover;
     grid-area: 1 / 1;
-    /* Place both video and image in the same grid cell */
     transition: opacity 0.5s ease-in-out;
 }
 
 #hero-endframe {
     opacity: 0;
-    /* Hide the end-frame image initially */
     z-index: 1;
 }
 
 #hero-video {
     z-index: 2;
-    /* Ensure video is on top to start */
 }
-
 
 .hero-cta-container {
     margin-top: 30px;
@@ -203,12 +329,217 @@
     color: var(--color-text-secondary);
 }
 
-body {
-    background-color: var(--color-background);
-    color: var(--color-text-primary);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+/* =============================== */
+/* Highlights Section              */
+/* =============================== */
+.highlights-section {
+    background-color: #1d1d1f;
+    padding: 100px 0;
+    text-align: center;
+    overflow-x: hidden;
 }
 
+.highlights-container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 22px;
+}
+
+.highlights-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 60px;
+    color: var(--color-text-primary);
+}
+
+.gallery-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    /* This height is crucial for containing the absolutely positioned items */
+    min-height: 600px;
+}
+
+.gallery-track {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.gallery-item {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1),
+        opacity 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+    width: 80%;
+    max-width: 900px;
+}
+
+.gallery-item.active {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    pointer-events: auto;
+    z-index: 10;
+}
+
+.gallery-item.previous {
+    opacity: 0.5;
+    transform: translateX(calc(-50% - 70%)) scale(0.8);
+    z-index: 5;
+}
+
+.gallery-item.next {
+    opacity: 0.5;
+    transform: translateX(calc(-50% + 70%)) scale(0.8);
+    z-index: 5;
+}
+
+.gallery-media-container {
+    width: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    background-color: #151516;
+}
+
+.gallery-video,
+.gallery-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.gallery-caption {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 24px;
+    color: var(--color-text-secondary);
+    position: relative;
+    z-index: 11;
+}
+
+.gallery-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    gap: 20px;
+}
+
+.dot-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.dot-btn {
+    background-color: #424245;
+    border: none;
+    cursor: pointer;
+    display: block;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+}
+
+.dot-btn.active {
+    width: 24px;
+    background-color: var(--color-text-primary);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.play-pause-btn {
+    background: none;
+    border: 2px solid #424245;
+    color: var(--color-text-primary);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: border-color 0.3s ease;
+}
+
+.play-pause-btn:hover {
+    border-color: var(--color-text-primary);
+}
+
+.play-pause-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.play-icon {
+    display: block;
+}
+
+.pause-icon {
+    display: none;
+}
+
+.replay-icon {
+    display: none;
+}
+
+.play-pause-btn.is-playing .play-icon {
+    display: none;
+}
+
+.play-pause-btn.is-playing .pause-icon {
+    display: block;
+}
+
+.play-pause-btn.is-replaying .play-icon {
+    display: none;
+}
+
+.play-pause-btn.is-replaying .replay-icon {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .gallery-wrapper {
+        min-height: 400px;
+    }
+
+    .gallery-item {
+        width: 90%;
+    }
+
+    .gallery-item.previous {
+        transform: translateX(calc(-50% - 80%)) scale(0.8);
+    }
+
+    .gallery-item.next {
+        transform: translateX(calc(-50% + 80%)) scale(0.8);
+    }
+}
+
+/* =============================== */
+/* M4 Chip Section                 */
+/* =============================== */
 .m4-chip-section {
     padding-top: 10vh;
     padding-bottom: 20vh;
@@ -255,7 +586,6 @@ body {
     width: 100%;
     height: auto;
     border-radius: 18px;
-    /* MODIFIED: Removed padding and overflow for a softer bleed */
     z-index: 2;
 }
 
@@ -277,27 +607,19 @@ body {
     z-index: 3;
 }
 
-/* THE NEW, SOFTER AMBIENT GLOW EFFECT */
 .glow-border-container::before {
     content: '';
     position: absolute;
-    /* MODIFIED: Increased inset to make the gradient larger */
     inset: -100px;
     background: linear-gradient(90deg,
-            /* A simple left-to-right gradient */
             var(--glow-ambient-blue),
             var(--glow-ambient-purple));
-    /* MODIFIED: Drastically increased blur for a soft, wide glow */
     filter: blur(90px);
-    /* MODIFIED: Reduced opacity for subtlety */
     opacity: 0.4;
     z-index: -1;
-    /* MODIFIED: Increased border-radius to prevent sharp corners on the blur */
     border-radius: 120px;
     transform: translateZ(0);
 }
-
-/* MODIFIED: We no longer need the ::after element for this simpler effect */
 
 .description-content {
     max-width: 980px;
@@ -321,19 +643,12 @@ body {
     color: var(--color-text-primary);
 }
 
-/*
-========================================
-Performance Comparison Section
-========================================
-*/
 .performance-comparison {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 60px;
-    /* Adjust gap between columns */
     max-width: 980px;
     margin: 10vh auto 0 auto;
-    /* Adds space above the section */
     text-align: left;
 }
 
@@ -342,7 +657,6 @@ Performance Comparison Section
     height: 2px;
     width: 100%;
     margin-bottom: 24px;
-    /* This gradient is matched to the colors in your image */
     background: linear-gradient(90deg, #4c87f8, #6356f6, #9c36f2, #e54b8d);
     isolation: isolate;
 }
@@ -356,27 +670,20 @@ Performance Comparison Section
     height: 250%;
     transform: translateY(-50%);
     background: inherit;
-    /* Uses the same gradient as the parent */
-    transform: translateY(-50%);
     filter: blur(7px);
-    /* Creates the glow */
     opacity: 0.8;
-    /* Adjust glow intensity */
     z-index: -1;
-    /* Places the glow behind the line */
 }
 
 .comparison-text p {
     font-size: 1rem;
     font-weight: 400;
-    /* Regular weight for descriptive text */
     color: var(--color-text-secondary);
     line-height: 1.4;
 }
 
 .comparison-text h2 {
     font-size: clamp(2.5rem, 4vw, 3.5rem);
-    /* Responsive font size */
     font-weight: 700;
     color: var(--color-text-primary);
     letter-spacing: -0.015em;
@@ -385,204 +692,20 @@ Performance Comparison Section
 
 .comparison-text sup {
     font-size: 0.8em;
-    /* Nudge the superscript up slightly for better alignment */
     vertical-align: super;
     padding-left: 2px;
 }
 
-/* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
     .performance-comparison {
         grid-template-columns: 1fr;
-        /* Stack columns vertically */
         gap: 50px;
-        /* Increase gap for vertical layout */
         text-align: center;
-        /* Center text on mobile */
     }
 
     .gradient-line {
         max-width: 280px;
         margin-left: auto;
         margin-right: auto;
-    }
-}
-
-/* Style the main link container for the Apple logo */
-.globalnav-link-apple,
-.global-link-search,
-.global-link-bag {
-    display: flex;
-    align-items: center;
-    padding: 0 8px;
-    /* This matches the padding from your screenshot */
-    height: 44px;
-    /* This matches the height from your screenshot */
-    /* Removes extra space around the SVG */
-}
-
-/* Control the color of the SVG logo */
-/* Control the color and alignment of the Apple logo SVG */
-.globalnav-link-apple svg {
-    position: relative;
-    top: 4px;
-    /* Keeps the Apple logo as it was */
-    fill: var(--color-text-primary);
-}
-
-/* Control the color and alignment of the Search icon SVG */
-.globalnav-link-search svg {
-    position: relative;
-    top: 4px;
-    /* Increased value to move it lower. Adjust as needed. */
-    fill: var(--color-text-primary);
-}
-
-/* Control the color and alignment of the Bag icon SVG */
-.globalnav-link-bag svg {
-    position: relative;
-    top: 5px;
-    /* Nudges the bag down. Adjust this value as needed. */
-    fill: var(--color-text-primary);
-}
-
-/* Visually hide the text, but keep it for screen readers */
-.globalnav-link-text {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-}
-
-/* Hide the compact logo on larger screens (desktop first) */
-.globalnav-image-compact {
-    display: none;
-}
-
-
-/* ---- RESPONSIVE BEHAVIOR ---- */
-/* On screens 833px or less, switch to the compact logo */
-@media (max-width: 833px) {
-
-    /* Hide the regular logo */
-    .globalnav-image-regular {
-        display: none;
-    }
-
-    /* Show the compact logo */
-    .globalnav-image-compact {
-        display: inline-block;
-    }
-}
-
-/*
-========================================
-Sticky Local Navigation
-========================================
-*/
-.local-nav {
-    position: fixed;
-    /* Keeps it at the top of the viewport */
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #1d1d1f;
-    /* The same gray as your sub-header */
-    z-index: 998;
-    /* Just below the main header (which is 999) */
-    padding: 8px 0;
-    height: 52px;
-    /* A standard height for this type of nav */
-
-    /* --- Initial Hidden State --- */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-100%);
-    /* Hides it above the viewport */
-    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
-}
-
-
-
-.local-nav.is-visible {
-    /* --- Visible State --- */
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    /* Slides it down into view */
-}
-
-.local-nav-content {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 0 22px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.local-nav-title {
-    font-size: 21px;
-    font-weight: 600;
-    color: var(--color-text-primary);
-}
-
-.local-nav-links {
-    display: flex;
-    list-style: none;
-    margin-left: 50px;
-    /* Pushes links away from the title */
-    flex-grow: 1;
-    /* Allows the list to take up available space */
-}
-
-.local-nav-group-right {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    /* Controls space between the last link and the Buy button */
-}
-
-.local-nav-links a {
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    font-size: 12px;
-    padding: 0 10px;
-    transition: color 0.3s ease;
-}
-
-.local-nav-links a:hover {
-    color: var(--color-text-primary);
-}
-
-.local-nav-links a.current {
-    color: var(--color-text-primary);
-}
-
-.local-nav-buy-button {
-    background-color: #0071e3;
-    color: #fff;
-    border: none;
-    border-radius: 980px;
-    padding: 4px 11px;
-    /* Smaller than the hero button */
-    font-size: 12px;
-    font-weight: 400;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.local-nav-buy-button:hover {
-    background-color: #0077ed;
-}
-
-/* Hide text links on smaller screens */
-@media (max-width: 833px) {
-    .local-nav-links {
-        display: none;
     }
 }
