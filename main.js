@@ -44,6 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentVideo) {
                 currentVideo.pause();
             }
+            const currentImage = items[currentIndex].querySelector('.gallery-image');
+            if (currentImage) {
+                currentImage.classList.remove('is-zooming');
+            }
 
             items.forEach(item => {
                 item.classList.remove('active', 'previous', 'next');
@@ -55,10 +59,16 @@ document.addEventListener('DOMContentLoaded', () => {
             items[currentIndex].classList.add('active');
             dots[currentIndex].classList.add('active');
 
-            const prevIndex = (currentIndex - 1 + items.length) % items.length;
-            const nextIndex = (currentIndex + 1) % items.length;
-            items[prevIndex].classList.add('previous');
-            items[nextIndex].classList.add('next');
+            if (currentIndex > 0) {
+                const prevIndex = currentIndex - 1;
+                items[prevIndex].classList.add('previous');
+            }
+
+            if (currentIndex < items.length - 1) {
+                const nextIndex = currentIndex + 1;
+                items[nextIndex].classList.add('next');
+            }
+
 
             if (isAutoplaying) {
                 advanceSlide();
@@ -83,6 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             } else {
+                const image = currentSlide.querySelector('.gallery-image');
+                if (image) {
+                    image.classList.add('is-zooming');
+                }
                 autoplayTimeout = setTimeout(goToNextSlide, IMAGE_SLIDE_DURATION);
             }
         }
@@ -120,8 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             } else {
-                // If it's an image, start the timer to the next slide
-                autoplayTimeout = setTimeout(goToNextSlide, IMAGE_SLIDE_DURATION);
+                const image = currentSlide.querySelector('.gallery-image');
+                if (image) {
+                    image.classList.add('is-zooming');
+                } autoplayTimeout = setTimeout(goToNextSlide, IMAGE_SLIDE_DURATION);
             }
         }
 
