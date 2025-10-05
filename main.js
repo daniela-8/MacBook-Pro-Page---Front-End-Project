@@ -23,11 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 2. HIGHLIGHTS GALLERY LOGIC (FIXED AUTOPLAY & RESUME) ---
+    // --- 2. HIGHLIGHTS GALLERY LOGIC (WITH SCROLL-BASED ANIMATION) ---
+    const highlightsSection = document.querySelector('.highlights-section');
     const track = document.querySelector('.gallery-track');
     const items = document.querySelectorAll('.gallery-item');
     const dots = document.querySelectorAll('.dot-btn');
     const playPauseBtn = document.querySelector('.play-pause-btn');
+    const morphDot = document.querySelector('.morph-dot');
+    const dotNavList = document.querySelector('.dot-nav ul');
 
     if (track && items.length > 0 && dots.length > 0 && playPauseBtn) {
 
@@ -36,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let autoplayTimeout;
         const IMAGE_SLIDE_DURATION = 4000;
 
-        // This function only handles the visual update of slides
         function updateGallery(newIndex) {
             clearTimeout(autoplayTimeout);
 
@@ -44,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentVideo) {
                 currentVideo.pause();
             }
+
             const currentImage = items[currentIndex].querySelector('.gallery-image');
             if (currentImage) {
                 currentImage.classList.remove('is-zooming');
@@ -60,43 +63,33 @@ document.addEventListener('DOMContentLoaded', () => {
             dots[currentIndex].classList.add('active');
 
             if (currentIndex > 0) {
-                const prevIndex = currentIndex - 1;
-                items[prevIndex].classList.add('previous');
+                items[currentIndex - 1].classList.add('previous');
             }
-
             if (currentIndex < items.length - 1) {
-                const nextIndex = currentIndex + 1;
-                items[nextIndex].classList.add('next');
+                items[currentIndex + 1].classList.add('next');
             }
-
 
             if (isAutoplaying) {
                 advanceSlide();
             }
         }
 
-        // This function starts media on a NEW slide (always from the beginning)
         function advanceSlide() {
             clearTimeout(autoplayTimeout);
 
             const currentSlide = items[currentIndex];
             const mediaType = currentSlide.dataset.mediaType;
             const video = currentSlide.querySelector('video');
+            const image = currentSlide.querySelector('.gallery-image');
 
             if (mediaType === 'video' && video) {
-                video.currentTime = 0; // Always reset for a new slide
+                video.currentTime = 0;
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.error("Autoplay was prevented:", error);
-                        stopAutoplay();
-                    });
+                    playPromise.catch(error => { console.error("Autoplay prevented:", error); stopAutoplay(); });
                 }
-            } else {
-                const image = currentSlide.querySelector('.gallery-image');
-                if (image) {
-                    image.classList.add('is-zooming');
-                }
+            } else if (mediaType === 'image' && image) {
+                image.classList.add('is-zooming');
                 autoplayTimeout = setTimeout(goToNextSlide, IMAGE_SLIDE_DURATION);
             }
         }
@@ -111,8 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // This function RESUMES or starts media on the CURRENT slide
         function startAutoplay() {
+            if (isAutoplaying) return;
             isAutoplaying = true;
             playPauseBtn.classList.add('is-playing');
             playPauseBtn.classList.remove('is-replaying');
@@ -121,34 +114,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentSlide = items[currentIndex];
             const mediaType = currentSlide.dataset.mediaType;
             const video = currentSlide.querySelector('video');
+            const image = currentSlide.querySelector('.gallery-image');
 
             if (mediaType === 'video' && video) {
-                if (video.ended) {
-                    video.currentTime = 0;
-                }
+                if (video.ended) video.currentTime = 0;
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.error("Playback failed:", error);
-                        stopAutoplay();
-                    });
+                    playPromise.catch(error => { console.error("Playback failed:", error); stopAutoplay(); });
                 }
-            } else {
-                const image = currentSlide.querySelector('.gallery-image');
-                if (image) {
-                    image.classList.add('is-zooming');
-                } autoplayTimeout = setTimeout(goToNextSlide, IMAGE_SLIDE_DURATION);
+            } else if (mediaType === 'image' && image) {
+                image.classList.add('is-zooming');
+                autoplayTimeout = setTimeout(goToNextSlide, IMAGE_SLIDE_DURATION);
             }
         }
 
         function stopAutoplay(showReplay = false) {
+            if (!isAutoplaying && !showReplay) return;
             isAutoplaying = false;
             clearTimeout(autoplayTimeout);
 
             const currentVideo = items[currentIndex].querySelector('video');
-            if (currentVideo) {
-                currentVideo.pause();
-            }
+            if (currentVideo) currentVideo.pause();
 
             playPauseBtn.classList.remove('is-playing');
             playPauseBtn.setAttribute('aria-label', 'Play gallery');
@@ -186,14 +172,35 @@ document.addEventListener('DOMContentLoaded', () => {
         items.forEach(item => {
             const video = item.querySelector('video');
             if (video) {
-                video.addEventListener('ended', () => {
-                    if (isAutoplaying) {
-                        goToNextSlide();
-                    }
-                });
+                video.addEventListener('ended', () => { if (isAutoplaying) goToNextSlide(); });
             }
         });
 
+        // --- FIXED: SCROLL-BASED TRIGGERS FOR GALLERY ---
+
+        // Trigger 1: Handles the morphing animation of the nav bar
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: highlightsSection,
+                start: "top 60%", // Starts a bit earlier for a smoother effect
+                toggleActions: "play none none reverse" // Plays on entering, reverses on leaving
+            }
+        })
+            .to(morphDot, { scale: 0, opacity: 0, duration: 0.3 })
+            .to(dotNavList, { scale: 1, opacity: 1, duration: 0.5 }, "<");
+
+        // Trigger 2: Handles the starting and stopping of the gallery autoplay
+        ScrollTrigger.create({
+            trigger: highlightsSection,
+            start: "top 50%",
+            end: "bottom 50%",
+            onEnter: () => startAutoplay(),
+            onLeave: () => stopAutoplay(),
+            onEnterBack: () => startAutoplay(),
+            onLeaveBack: () => stopAutoplay()
+        });
+
+        // Initialize the gallery visuals
         updateGallery(0);
 
     } else {

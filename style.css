@@ -439,11 +439,32 @@ body {
     gap: 20px;
 }
 
+.dot-nav {
+    position: relative;
+    /* Add this to act as a container for the morph-dot */
+}
+
+.morph-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    background-color: #424245;
+    border-radius: 50%;
+    z-index: 2;
+    /* Ensure it's on top initially */
+}
+
 .dot-nav ul {
     list-style: none;
     display: flex;
     gap: 16px;
     align-items: center;
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: center center;
 }
 
 .dot-btn {
