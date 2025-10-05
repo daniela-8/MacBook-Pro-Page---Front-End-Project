@@ -223,52 +223,48 @@ const glowContainer = document.querySelector('.glow-border-container');
 let videoScrubTl;
 
 const setupAnimation = () => {
-    if (!video || !section || !animationContainer || !glowContainer) return;
+    // Ensure the required elements exist before running the code.
+    if (!video || !section) return;
+
+    // Set the initial state: video is paused at the beginning.
     video.pause();
     video.currentTime = 0;
-    let scrub = { time: 0 };
-    if (videoScrubTl) {
-        videoScrubTl.kill();
-    }
-    videoScrubTl = gsap.timeline({
-        scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: "+=3000",
-            scrub: 1.8,
-            pin: animationContainer,
-        }
+
+
+    // Create a ScrollTrigger to play the video.
+    ScrollTrigger.create({
+        trigger: video, // The animation triggers based on the video element itself.
+        start: 'top 75%', // Starts when the top of the video is 75% down the screen.
+        end: 'bottom 25%', // A placeholder end point.
+
+        // This is the magic: when the trigger starts, just play the video!
+        onEnter: () => video.play(),
+
+        // Optional: If you scroll back up, rewind the video.
+        onLeaveBack: () => video.currentTime = 0,
     });
-    videoScrubTl.to(scrub, {
-        time: video.duration,
-        ease: "none",
-        onUpdate: () => {
-            if (!isNaN(video.duration)) {
-                video.currentTime = scrub.time;
-            }
-        }
-    });
-    videoScrubTl.to(glowContainer, {
-        opacity: 0,
-        duration: 0.5
-    });
-    if (descriptionContent) {
-        gsap.fromTo(descriptionContent, {
-            opacity: 0,
-            y: 50
-        }, {
-            opacity: 1,
-            y: 0,
-            ease: "power1.inOut",
-            scrollTrigger: {
-                trigger: descriptionContent,
-                start: "top 80%",
-                end: "top 70%",
-                scrub: true,
-            }
-        });
-    }
 };
+// This listens for the 'ended' event on the video element.
+// This listens for the 'ended' event on the video element.
+video.addEventListener('ended', () => {
+    console.log('Video has ended. Fading to end frame.');
+
+    // Animate the video to be fully transparent
+    gsap.to(video, {
+        opacity: 0,
+        duration: 0.4,
+        // After the fade, move the video to the back
+        onComplete: () => {
+            gsap.set(video, { zIndex: 0 });
+        }
+    });
+
+    // Animate the end-frame image to be fully visible
+    gsap.to('#end-frame', {
+        opacity: 1,
+        duration: 0.4
+    });
+});
 
 const init = () => {
     if (video && video.readyState >= 2) {
@@ -277,6 +273,19 @@ const init = () => {
         video.addEventListener('loadeddata', setupAnimation);
     }
 };
+gsap.fromTo(descriptionContent, {
+    opacity: 0,
+    y: 50
+}, {
+    opacity: 1,
+    y: 0,
+    ease: "power1.inOut",
+    scrollTrigger: {
+        trigger: descriptionContent,
+        start: "top 85%",
+        toggleActions: "play none none none"
+    }
+});
 
 gsap.from(".comparison-item", {
     opacity: 0,

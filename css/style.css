@@ -573,6 +573,14 @@ body {
     padding-bottom: 20vh;
 }
 
+/* Add this new rule if it doesn't exist */
+.m4-chip-content {
+    display: grid;
+    justify-items: center;
+    gap: 12vh;
+    /* This creates vertical space between the sections */
+}
+
 .hero-content {
     max-width: 980px;
     width: 90%;
@@ -609,16 +617,18 @@ body {
 }
 
 .glow-border-container {
+    display: grid;
+    /* This enables the layering */
     position: relative;
     grid-area: 1 / 1 / 2 / 2;
     width: 100%;
     height: auto;
     border-radius: 18px;
-    z-index: 2;
 }
 
 #anim-video,
 #end-frame {
+    /* This rule tells both elements to stack in the same grid cell */
     grid-area: 1 / 1 / 2 / 2;
     width: 100%;
     height: auto;
@@ -628,11 +638,15 @@ body {
 }
 
 #end-frame {
+    opacity: 0;
+    /* Starts hidden */
     z-index: 1;
+    /* On the bottom layer */
 }
 
 #anim-video {
-    z-index: 3;
+    z-index: 2;
+    /* Starts on the top layer */
 }
 
 .glow-border-container::before {
@@ -652,7 +666,7 @@ body {
 .description-content {
     max-width: 980px;
     width: 90%;
-    margin: 15vh auto 0 auto;
+    margin: 0 auto;
     opacity: 0;
     text-align: center;
 }
