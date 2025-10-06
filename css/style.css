@@ -751,3 +751,66 @@ body {
         margin-right: auto;
     }
 }
+
+/* =============================== */
+/* GPU Burst Section (New)         */
+/* =============================== */
+.gpu-burst-section {
+    padding: 120px 0;
+    text-align: center;
+}
+
+.gpu-burst-section h3 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    max-width: 980px;
+    margin: 0 auto 80px auto;
+    padding: 0 22px;
+}
+
+/* This container is the trigger for our animation and will be pinned */
+.gpu-burst-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* This height is important for the pinning duration */
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* Base hardware image and all screen images are absolutely positioned to stack them */
+.gpu-hardware,
+.gpu-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+}
+
+.gpu-hardware {
+    z-index: 1;
+    /* Sits at the bottom */
+    max-width: 60%;
+}
+
+.gpu-screen {
+    z-index: 2;
+    /* All screen images sit on top */
+    max-width: 35%;
+    /* Adjusted: Set a new base size for screens */
+}
+
+.gpu-burst-description {
+    max-width: 700px;
+    margin: 80px auto 0 auto;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    padding: 0 22px;
+}
+
+.gpu-burst-description .highlight {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}

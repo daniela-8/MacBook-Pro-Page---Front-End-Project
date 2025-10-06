@@ -18,8 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroEndframe = document.getElementById('hero-endframe');
     if (heroVideo) {
         heroVideo.addEventListener('ended', () => {
-            gsap.to(heroVideo, { opacity: 0, duration: 0.75 });
-            gsap.to(heroEndframe, { opacity: 1, duration: 0.75 });
+            gsap.to(heroVideo, {
+                opacity: 0,
+                duration: 0.75
+            });
+            gsap.to(heroEndframe, {
+                opacity: 1,
+                duration: 0.75
+            });
         });
     }
 
@@ -86,7 +92,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 video.currentTime = 0;
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
-                    playPromise.catch(error => { console.error("Autoplay prevented:", error); stopAutoplay(); });
+                    playPromise.catch(error => {
+                        console.error("Autoplay prevented:", error);
+                        stopAutoplay();
+                    });
                 }
             } else if (mediaType === 'image' && image) {
                 image.classList.add('is-zooming');
@@ -120,7 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (video.ended) video.currentTime = 0;
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
-                    playPromise.catch(error => { console.error("Playback failed:", error); stopAutoplay(); });
+                    playPromise.catch(error => {
+                        console.error("Playback failed:", error);
+                        stopAutoplay();
+                    });
                 }
             } else if (mediaType === 'image' && image) {
                 image.classList.add('is-zooming');
@@ -172,7 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
         items.forEach(item => {
             const video = item.querySelector('video');
             if (video) {
-                video.addEventListener('ended', () => { if (isAutoplaying) goToNextSlide(); });
+                video.addEventListener('ended', () => {
+                    if (isAutoplaying) goToNextSlide();
+                });
             }
         });
 
@@ -183,8 +197,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 toggleActions: "play none none reverse"
             }
         })
-            .to(morphDot, { scale: 0, opacity: 0, duration: 0.3 })
-            .to(dotNavList, { scale: 1, opacity: 1, duration: 0.5 }, "<");
+            .to(morphDot, {
+                scale: 0,
+                opacity: 0,
+                duration: 0.3
+            })
+            .to(dotNavList, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.5
+            }, "<");
 
         ScrollTrigger.create({
             trigger: highlightsSection,
@@ -201,127 +223,187 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('Highlights gallery elements not found.');
     }
-});
+
+    // =======================================================
+    //  START: GPU BURST SCROLLING ANIMATION (UPDATED SECTION)
+    // =======================================================
+    const gpuBurstContainer = document.querySelector('.gpu-burst-container');
+    if (gpuBurstContainer) {
+        const gpuTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: gpuBurstContainer,
+                start: 'center center',
+                end: '+=1500',
+                scrub: 1.5,
+                pin: true,
+            }
+        });
+
+        // Animate screens to the borders of the hardware image without rotation.
+        // Screen 1 (TouchDesigner UI) -> Bottom Left (lower)
+        gpuTl.to('.screen-1', {
+            xPercent: -90,
+            yPercent: 100,
+            scale: 1.1,
+            ease: 'power1.out'
+        }, 0);
+
+        // Screen 2 (Lightroom/Woman) -> Bottom Right
+        gpuTl.to('.screen-2', {
+            xPercent: 90,
+            yPercent: 90,
+            scale: 1,
+            ease: 'power1.out'
+        }, 0);
+
+        // Screen 3 (Gaming/Cinematic) -> Bottom Left (upper)
+        gpuTl.to('.screen-3', {
+            xPercent: -100,
+            yPercent: 40,
+            scale: 0.8,
+            ease: 'power1.out'
+        }, 0);
+
+        // Screen 4 (Flame/Green Smoke) -> Top Left
+        gpuTl.to('.screen-4', {
+            xPercent: -85,
+            yPercent: -95,
+            scale: 1,
+            ease: 'power1.out'
+        }, 0);
+
+        // Screen 5 (Blender/Red Castle) -> Middle Right
+        gpuTl.to('.screen-5', {
+            xPercent: 100,
+            yPercent: 0,
+            scale: 0.9,
+            ease: 'power1.out'
+        }, 0);
+
+        // Screen 6 (Photoshop/Dancers) -> Top Right
+        gpuTl.to('.screen-6', {
+            xPercent: 85,
+            yPercent: -95,
+            scale: 0.8,
+            ease: 'power1.out'
+        }, 0);
+    }
+    // =======================================================
+    //  END: GPU BURST SCROLLING ANIMATION
+    // =======================================================
 
 
-// =======================================================
-//  START: M4 CHIP SCROLLING ANIMATION (MODIFIED SECTION)
-// =======================================================
-gsap.registerPlugin(ScrollTrigger);
+    // =======================================================
+    //  START: M4 CHIP SCROLLING ANIMATION
+    // =======================================================
+    gsap.registerPlugin(ScrollTrigger);
 
-const video = document.querySelector('#anim-video');
-const descriptionContent = document.querySelector('.description-content');
-const animationContainer = document.querySelector('.animation-container');
+    const video = document.querySelector('#anim-video');
+    const descriptionContent = document.querySelector('.description-content');
+    const animationContainer = document.querySelector('.animation-container');
 
-const setupAnimation = () => {
-    if (!video || !animationContainer) return;
+    const setupAnimation = () => {
+        if (!video || !animationContainer) return;
 
-    // Set initial video state
-    video.pause();
-    video.currentTime = 0;
+        // Set initial video state
+        video.pause();
+        video.currentTime = 0;
 
-    const videoScrubTl = gsap.timeline({
-        scrollTrigger: {
-            trigger: animationContainer,
-            start: 'center center',
-            end: '+=3000',
-            scrub: true,
-            pin: true,
-            anticipatePin: 1
+        const videoScrubTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: animationContainer,
+                start: 'center center',
+                end: '+=3000',
+                scrub: true,
+                pin: true,
+                anticipatePin: 1
+            }
+        });
+
+        const crossFadeDuration = 0.09;
+
+        videoScrubTl.to(video, {
+            currentTime: video.duration || 3.3,
+            ease: 'none'
+        });
+
+        videoScrubTl.to(video, {
+            opacity: 0,
+            duration: crossFadeDuration,
+            ease: 'power1.inOut'
+        }, `-=${crossFadeDuration}`);
+
+        videoScrubTl.to('#end-frame', {
+            opacity: 1,
+            duration: crossFadeDuration,
+            ease: 'power1.inOut'
+        }, "<");
+
+    };
+
+    const init = () => {
+        if (video && video.readyState >= 2) {
+            setupAnimation();
+        } else if (video) {
+            video.addEventListener('loadeddata', setupAnimation);
         }
-    });
+    };
 
-    // --- MODIFIED THIS SECTION ---
-
-    // Define the duration of the cross-fade. An even smaller number for a very late and fast fade.
-    // I've changed this from 0.2 to 0.1.
-    const crossFadeDuration = 0.09;
-
-    // This tween still controls the video playback for the entire scroll duration.
-    videoScrubTl.to(video, {
-        currentTime: video.duration || 3.3,
-        ease: 'none'
-    });
-
-    // Start fading the video out. This tween begins before the main video scrub tween is finished.
-    videoScrubTl.to(video, {
+    gsap.fromTo(descriptionContent, {
         opacity: 0,
-        duration: crossFadeDuration, // How long the fade takes
-        ease: 'power1.inOut'
-    }, `-=${crossFadeDuration}`); // The "-=" tells it to start X seconds *before* the previous tween ends.
-
-    // Start fading the image in *at the exact same time* as the video starts fading out.
-    videoScrubTl.to('#end-frame', {
+        y: 50
+    }, {
         opacity: 1,
-        duration: crossFadeDuration, // The fade takes the same amount of time
-        ease: 'power1.inOut'
-    }, "<"); // The "<" symbol means "start at the same time as the previous tween".
-
-};
-
-// This function checks if the video is ready to play before setting up the animation.
-const init = () => {
-    if (video && video.readyState >= 2) {
-        setupAnimation();
-    } else if (video) {
-        video.addEventListener('loadeddata', setupAnimation);
-    }
-};
-
-// The rest of your animations for this section remain the same.
-gsap.fromTo(descriptionContent, {
-    opacity: 0,
-    y: 50
-}, {
-    opacity: 1,
-    y: 0,
-    ease: "power1.inOut",
-    scrollTrigger: {
-        trigger: descriptionContent,
-        start: "top 85%",
-        toggleActions: "play none none none"
-    }
-});
-
-gsap.from(".comparison-item", {
-    opacity: 0,
-    y: 40,
-    ease: "power2.out",
-    stagger: 0.2,
-    scrollTrigger: {
-        trigger: ".performance-comparison",
-        start: "top 85%",
-        toggleActions: "play none none none",
-    }
-});
-// =======================================================
-//  END: M4 CHIP SCROLLING ANIMATION (MODIFIED SECTION)
-// =======================================================
-
-
-// =======================================================
-//  HEADER VISIBILITY SCROLLTRIGGER
-// =======================================================
-const initialHeaders = document.querySelector('#initial-headers');
-const localNav = document.querySelector('.local-nav');
-const heroSection = document.querySelector('.hero-section');
-
-if (initialHeaders && localNav && heroSection) {
-    ScrollTrigger.create({
-        trigger: heroSection,
-        start: "bottom 52px",
-        onEnter: () => {
-            initialHeaders.classList.add('is-hidden');
-            localNav.classList.add('is-visible');
-        },
-        onLeaveBack: () => {
-            initialHeaders.classList.remove('is-hidden');
-            localNav.classList.remove('is-visible');
+        y: 0,
+        ease: "power1.inOut",
+        scrollTrigger: {
+            trigger: descriptionContent,
+            start: "top 85%",
+            toggleActions: "play none none none"
         }
     });
-}
 
-// =======================================================
-//  INITIALIZE ANIMATIONS
-// =======================================================
-init();
+    gsap.from(".comparison-item", {
+        opacity: 0,
+        y: 40,
+        ease: "power2.out",
+        stagger: 0.2,
+        scrollTrigger: {
+            trigger: ".performance-comparison",
+            start: "top 85%",
+            toggleActions: "play none none none",
+        }
+    });
+    // =======================================================
+    //  END: M4 CHIP SCROLLING ANIMATION
+    // =======================================================
+
+
+    // =======================================================
+    //  HEADER VISIBILITY SCROLLTRIGGER
+    // =======================================================
+    const initialHeaders = document.querySelector('#initial-headers');
+    const localNav = document.querySelector('.local-nav');
+    const heroSection = document.querySelector('.hero-section');
+
+    if (initialHeaders && localNav && heroSection) {
+        ScrollTrigger.create({
+            trigger: heroSection,
+            start: "bottom 52px",
+            onEnter: () => {
+                initialHeaders.classList.add('is-hidden');
+                localNav.classList.add('is-visible');
+            },
+            onLeaveBack: () => {
+                initialHeaders.classList.remove('is-hidden');
+                localNav.classList.remove('is-visible');
+            }
+        });
+    }
+
+    // =======================================================
+    //  INITIALIZE ANIMATIONS
+    // =======================================================
+    init();
+
+});
