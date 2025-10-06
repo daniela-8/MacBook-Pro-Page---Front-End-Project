@@ -811,3 +811,143 @@ body {
     color: var(--color-text-primary);
     font-weight: 600;
 }
+
+/* =============================== */
+/* Footer Section                  */
+/* =============================== */
+.site-footer {
+    background-color: #1d1d1f;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    padding: 40px 0 20px 0;
+}
+
+.footer-content {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 22px;
+}
+
+.footer-nav {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding-bottom: 30px;
+}
+
+.footer-column h3 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 12px;
+}
+
+.footer-column ul {
+    list-style: none;
+    margin-bottom: 24px;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+}
+
+.footer-column a:hover {
+    text-decoration: underline;
+}
+
+.footer-shop-info {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #424245;
+}
+
+.footer-shop-info a {
+    color: #2997ff;
+    text-decoration: none;
+}
+
+.footer-shop-info a:hover {
+    text-decoration: underline;
+}
+
+.footer-legal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 5px;
+}
+
+.copyright {
+    margin-right: 30px;
+}
+
+.legal-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.legal-links li {
+    padding: 0 10px;
+    border-right: 1px solid #424245;
+}
+
+.legal-links li:last-child {
+    border-right: none;
+}
+
+.legal-links a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+}
+
+.legal-links a:hover {
+    text-decoration: underline;
+}
+
+.country {
+    margin-left: auto;
+}
+
+.country a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+}
+
+.country a:hover {
+    text-decoration: underline;
+}
+
+
+/* Responsive styles for footer */
+@media (max-width: 833px) {
+    .footer-nav {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-nav {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-legal {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .country {
+        margin-left: 0;
+    }
+
+    .legal-links li:first-child {
+        padding-left: 0;
+    }
+}

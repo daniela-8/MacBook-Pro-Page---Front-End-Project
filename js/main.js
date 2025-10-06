@@ -316,6 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =======================================================
 
 
+
     // =======================================================
     //  START: M4 CHIP SCROLLING ANIMATION
     // =======================================================
@@ -444,4 +445,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // =======================================================
     init();
 
+});
+
+// =======================================================
+//  FIX: REFRESH SCROLLTRIGGERS ONCE ALL CONTENT IS LOADED
+// =======================================================
+window.addEventListener('load', () => {
+    ScrollTrigger.refresh();
 });
