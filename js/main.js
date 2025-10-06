@@ -176,20 +176,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // --- FIXED: SCROLL-BASED TRIGGERS FOR GALLERY ---
-
-        // Trigger 1: Handles the morphing animation of the nav bar
         gsap.timeline({
             scrollTrigger: {
                 trigger: highlightsSection,
-                start: "top 60%", // Starts a bit earlier for a smoother effect
-                toggleActions: "play none none reverse" // Plays on entering, reverses on leaving
+                start: "top 60%",
+                toggleActions: "play none none reverse"
             }
         })
             .to(morphDot, { scale: 0, opacity: 0, duration: 0.3 })
             .to(dotNavList, { scale: 1, opacity: 1, duration: 0.5 }, "<");
 
-        // Trigger 2: Handles the starting and stopping of the gallery autoplay
         ScrollTrigger.create({
             trigger: highlightsSection,
             start: "top 50%",
@@ -200,7 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
             onLeaveBack: () => stopAutoplay()
         });
 
-        // Initialize the gallery visuals
         updateGallery(0);
 
     } else {
@@ -210,62 +205,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // =======================================================
-// M4 CHIP SCROLLING ANIMATION (Second Section)
+//  START: M4 CHIP SCROLLING ANIMATION (MODIFIED SECTION)
 // =======================================================
 gsap.registerPlugin(ScrollTrigger);
 
-const section = document.querySelector('.m4-chip-section');
 const video = document.querySelector('#anim-video');
 const descriptionContent = document.querySelector('.description-content');
 const animationContainer = document.querySelector('.animation-container');
-const glowContainer = document.querySelector('.glow-border-container');
-
-let videoScrubTl;
 
 const setupAnimation = () => {
-    // Ensure the required elements exist before running the code.
-    if (!video || !section) return;
+    if (!video || !animationContainer) return;
 
-    // Set the initial state: video is paused at the beginning.
+    // Set initial video state
     video.pause();
     video.currentTime = 0;
 
-
-    // Create a ScrollTrigger to play the video.
-    ScrollTrigger.create({
-        trigger: video, // The animation triggers based on the video element itself.
-        start: 'top 75%', // Starts when the top of the video is 75% down the screen.
-        end: 'bottom 25%', // A placeholder end point.
-
-        // This is the magic: when the trigger starts, just play the video!
-        onEnter: () => video.play(),
-
-        // Optional: If you scroll back up, rewind the video.
-        onLeaveBack: () => video.currentTime = 0,
-    });
-};
-// This listens for the 'ended' event on the video element.
-// This listens for the 'ended' event on the video element.
-video.addEventListener('ended', () => {
-    console.log('Video has ended. Fading to end frame.');
-
-    // Animate the video to be fully transparent
-    gsap.to(video, {
-        opacity: 0,
-        duration: 0.4,
-        // After the fade, move the video to the back
-        onComplete: () => {
-            gsap.set(video, { zIndex: 0 });
+    const videoScrubTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: animationContainer,
+            start: 'center center',
+            end: '+=3000',
+            scrub: true,
+            pin: true,
+            anticipatePin: 1
         }
     });
 
-    // Animate the end-frame image to be fully visible
-    gsap.to('#end-frame', {
-        opacity: 1,
-        duration: 0.4
-    });
-});
+    // --- MODIFIED THIS SECTION ---
 
+    // Define the duration of the cross-fade. An even smaller number for a very late and fast fade.
+    // I've changed this from 0.2 to 0.1.
+    const crossFadeDuration = 0.09;
+
+    // This tween still controls the video playback for the entire scroll duration.
+    videoScrubTl.to(video, {
+        currentTime: video.duration || 3.3,
+        ease: 'none'
+    });
+
+    // Start fading the video out. This tween begins before the main video scrub tween is finished.
+    videoScrubTl.to(video, {
+        opacity: 0,
+        duration: crossFadeDuration, // How long the fade takes
+        ease: 'power1.inOut'
+    }, `-=${crossFadeDuration}`); // The "-=" tells it to start X seconds *before* the previous tween ends.
+
+    // Start fading the image in *at the exact same time* as the video starts fading out.
+    videoScrubTl.to('#end-frame', {
+        opacity: 1,
+        duration: crossFadeDuration, // The fade takes the same amount of time
+        ease: 'power1.inOut'
+    }, "<"); // The "<" symbol means "start at the same time as the previous tween".
+
+};
+
+// This function checks if the video is ready to play before setting up the animation.
 const init = () => {
     if (video && video.readyState >= 2) {
         setupAnimation();
@@ -273,6 +267,8 @@ const init = () => {
         video.addEventListener('loadeddata', setupAnimation);
     }
 };
+
+// The rest of your animations for this section remain the same.
 gsap.fromTo(descriptionContent, {
     opacity: 0,
     y: 50
@@ -298,6 +294,9 @@ gsap.from(".comparison-item", {
         toggleActions: "play none none none",
     }
 });
+// =======================================================
+//  END: M4 CHIP SCROLLING ANIMATION (MODIFIED SECTION)
+// =======================================================
 
 
 // =======================================================
