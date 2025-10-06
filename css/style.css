@@ -791,13 +791,13 @@ body {
 .gpu-hardware {
     z-index: 1;
     /* Sits at the bottom */
-    max-width: 60%;
+    max-width: 50%;
 }
 
 .gpu-screen {
     z-index: 2;
     /* All screen images sit on top */
-    max-width: 35%;
+    max-width: 25%;
     /* Adjusted: Set a new base size for screens */
 }
 

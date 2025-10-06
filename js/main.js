@@ -225,68 +225,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =======================================================
-    //  START: GPU BURST SCROLLING ANIMATION (UPDATED SECTION)
+    //  START: GPU BURST SCROLLING ANIMATION (VISIBLE START)
     // =======================================================
     const gpuBurstContainer = document.querySelector('.gpu-burst-container');
     if (gpuBurstContainer) {
+
+
+        // 1. Set the initial VISIBLE positions for each screen.
+        //    **UPDATED** to shift the cluster higher and further left.
+        gsap.set('.screen-1', { xPercent: -120, yPercent: -10 });   // Bottom Left
+        gsap.set('.screen-2', { xPercent: -10, yPercent: -10 });    // Bottom Right
+        gsap.set('.screen-3', { xPercent: -130, yPercent: -70 });  // Middle Left
+        gsap.set('.screen-4', { xPercent: -115, yPercent: -130 }); // Top Left
+        gsap.set('.screen-5', { xPercent: 0, yPercent: -70 });   // Middle Right
+        gsap.set('.screen-6', { xPercent: -15, yPercent: -130 });  // Top Right
+
+
+        // 2. Create the timeline to animate TO the final "exploded" state.
         const gpuTl = gsap.timeline({
             scrollTrigger: {
-                trigger: gpuBurstContainer,
-                start: 'center center',
+                trigger: '.gpu-burst-section',
+                start: 'top 60%',
                 end: '+=1500',
                 scrub: 1.5,
-                pin: true,
+                pin: 'gpu-burst-section',
             }
         });
 
-        // Animate screens to the borders of the hardware image without rotation.
-        // Screen 1 (TouchDesigner UI) -> Bottom Left (lower)
-        gpuTl.to('.screen-1', {
-            xPercent: -90,
-            yPercent: 100,
-            scale: 1.1,
-            ease: 'power1.out'
-        }, 0);
+        const animationProps = {
+            scale: 1.2, // Screens will still grow slightly as they move
+            ease: 'power2.out'
+        };
 
-        // Screen 2 (Lightroom/Woman) -> Bottom Right
-        gpuTl.to('.screen-2', {
-            xPercent: 90,
-            yPercent: 90,
-            scale: 1,
-            ease: 'power1.out'
-        }, 0);
-
-        // Screen 3 (Gaming/Cinematic) -> Bottom Left (upper)
-        gpuTl.to('.screen-3', {
-            xPercent: -100,
-            yPercent: 40,
-            scale: 0.8,
-            ease: 'power1.out'
-        }, 0);
-
-        // Screen 4 (Flame/Green Smoke) -> Top Left
-        gpuTl.to('.screen-4', {
-            xPercent: -85,
-            yPercent: -95,
-            scale: 1,
-            ease: 'power1.out'
-        }, 0);
-
-        // Screen 5 (Blender/Red Castle) -> Middle Right
-        gpuTl.to('.screen-5', {
-            xPercent: 100,
-            yPercent: 0,
-            scale: 0.9,
-            ease: 'power1.out'
-        }, 0);
-
-        // Screen 6 (Photoshop/Dancers) -> Top Right
-        gpuTl.to('.screen-6', {
-            xPercent: 85,
-            yPercent: -95,
-            scale: 0.8,
-            ease: 'power1.out'
-        }, 0);
+        // Animate TO the final positions, arranging them on the top, left, and right.
+        // Animate TO the final positions, shifting the entire group further to the left.
+        // Animate TO the final positions with the new custom layout.
+        // Animate TO the final positions with screens 1, 3, and 4 moved higher.
+        // Animate TO the final positions with screen 4 moved higher and to the left.
+        gpuTl.to('.screen-1', { ...animationProps, xPercent: -230, yPercent: -30 }, 0);   // Unchanged
+        gpuTl.to('.screen-2', { ...animationProps, xPercent: 140, yPercent: 40 }, 0);    // Unchanged
+        gpuTl.to('.screen-3', { ...animationProps, xPercent: -210, yPercent: -100 }, 0);  // Unchanged
+        gpuTl.to('.screen-4', { ...animationProps, xPercent: -185, yPercent: -250 }, 0); // Even higher and to the left
+        gpuTl.to('.screen-5', { ...animationProps, xPercent: 130, yPercent: -160 }, 0);  // Unchanged
+        gpuTl.to('.screen-6', { ...animationProps, xPercent: 40, yPercent: -180 }, 0);    // Unchanged
     }
     // =======================================================
     //  END: GPU BURST SCROLLING ANIMATION
