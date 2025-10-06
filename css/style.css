@@ -153,19 +153,26 @@ body {
 /* =============================== */
 /* Local Navigation                */
 /* =============================== */
+/* After */
+
 .local-nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #1d1d1f;
+    /* Changed to a transparent background */
+    background-color: rgba(29, 29, 31, 0.72);
+    /* Added for the frosted glass effect */
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
     z-index: 998;
-    padding: 8px 0;
-    height: 52px;
+    min-height: 52px;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-100%);
     transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+    display: flex;
+    align-items: center;
 }
 
 .local-nav.is-visible {

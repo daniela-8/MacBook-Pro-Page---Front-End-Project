@@ -233,12 +233,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 1. Set the initial VISIBLE positions for each screen.
         //    **UPDATED** to shift the cluster higher and further left.
-        gsap.set('.screen-1', { xPercent: -120, yPercent: -10 });   // Bottom Left
-        gsap.set('.screen-2', { xPercent: -10, yPercent: -10 });    // Bottom Right
-        gsap.set('.screen-3', { xPercent: -130, yPercent: -70 });  // Middle Left
-        gsap.set('.screen-4', { xPercent: -115, yPercent: -130 }); // Top Left
-        gsap.set('.screen-5', { xPercent: 0, yPercent: -70 });   // Middle Right
-        gsap.set('.screen-6', { xPercent: -15, yPercent: -130 });  // Top Right
+        gsap.set('.screen-1', {
+            xPercent: -120,
+            yPercent: -10
+        }); // Bottom Left
+        gsap.set('.screen-2', {
+            xPercent: -10,
+            yPercent: -10
+        }); // Bottom Right
+        gsap.set('.screen-3', {
+            xPercent: -130,
+            yPercent: -70
+        }); // Middle Left
+        gsap.set('.screen-4', {
+            xPercent: -115,
+            yPercent: -130
+        }); // Top Left
+        gsap.set('.screen-5', {
+            xPercent: 0,
+            yPercent: -70
+        }); // Middle Right
+        gsap.set('.screen-6', {
+            xPercent: -15,
+            yPercent: -130
+        }); // Top Right
 
 
         // 2. Create the timeline to animate TO the final "exploded" state.
@@ -262,12 +280,36 @@ document.addEventListener('DOMContentLoaded', () => {
         // Animate TO the final positions with the new custom layout.
         // Animate TO the final positions with screens 1, 3, and 4 moved higher.
         // Animate TO the final positions with screen 4 moved higher and to the left.
-        gpuTl.to('.screen-1', { ...animationProps, xPercent: -230, yPercent: -30 }, 0);   // Unchanged
-        gpuTl.to('.screen-2', { ...animationProps, xPercent: 140, yPercent: 40 }, 0);    // Unchanged
-        gpuTl.to('.screen-3', { ...animationProps, xPercent: -210, yPercent: -100 }, 0);  // Unchanged
-        gpuTl.to('.screen-4', { ...animationProps, xPercent: -185, yPercent: -250 }, 0); // Even higher and to the left
-        gpuTl.to('.screen-5', { ...animationProps, xPercent: 130, yPercent: -160 }, 0);  // Unchanged
-        gpuTl.to('.screen-6', { ...animationProps, xPercent: 40, yPercent: -180 }, 0);    // Unchanged
+        gpuTl.to('.screen-1', {
+            ...animationProps,
+            xPercent: -230,
+            yPercent: -30
+        }, 0); // Unchanged
+        gpuTl.to('.screen-2', {
+            ...animationProps,
+            xPercent: 140,
+            yPercent: 40
+        }, 0); // Unchanged
+        gpuTl.to('.screen-3', {
+            ...animationProps,
+            xPercent: -210,
+            yPercent: -100
+        }, 0); // Unchanged
+        gpuTl.to('.screen-4', {
+            ...animationProps,
+            xPercent: -185,
+            yPercent: -250
+        }, 0); // Even higher and to the left
+        gpuTl.to('.screen-5', {
+            ...animationProps,
+            xPercent: 130,
+            yPercent: -160
+        }, 0); // Unchanged
+        gpuTl.to('.screen-6', {
+            ...animationProps,
+            xPercent: 40,
+            yPercent: -180
+        }, 0); // Unchanged
     }
     // =======================================================
     //  END: GPU BURST SCROLLING ANIMATION
@@ -366,17 +408,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialHeaders = document.querySelector('#initial-headers');
     const localNav = document.querySelector('.local-nav');
     const heroSection = document.querySelector('.hero-section');
+    const buyButton = document.querySelector('.buy-button'); // <<< FIX IS HERE
 
     if (initialHeaders && localNav && heroSection) {
         ScrollTrigger.create({
             trigger: heroSection,
-            start: "bottom 52px",
+            start: "top top -=1",
             onEnter: () => {
                 initialHeaders.classList.add('is-hidden');
                 localNav.classList.add('is-visible');
             },
             onLeaveBack: () => {
                 initialHeaders.classList.remove('is-hidden');
+                localNav.classList.remove('is-visible');
+            }
+        });
+    }
+
+    if (buyButton && localNav) {
+        // This NEW trigger ONLY shows the sticky MacBook Pro nav
+        ScrollTrigger.create({
+            trigger: buyButton,
+            start: "center center",
+            onEnter: () => {
+                localNav.classList.add('is-visible');
+            },
+            onLeaveBack: () => {
                 localNav.classList.remove('is-visible');
             }
         });
