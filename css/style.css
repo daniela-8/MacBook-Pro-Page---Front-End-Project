@@ -20,9 +20,6 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* =============================== */
-/* Main Header Navigation          */
-/* =============================== */
 .main-header {
     background-color: rgba(29, 29, 31, 0.72);
     backdrop-filter: saturate(180%) blur(20px);
@@ -131,9 +128,6 @@ body {
     }
 }
 
-/* =============================== */
-/* Sub-header (Education Savings)  */
-/* =============================== */
 .sub-header {
     padding: 12px 0;
     background-color: #1d1d1f;
@@ -150,9 +144,6 @@ body {
     text-decoration: underline;
 }
 
-/* =============================== */
-/* Local Navigation                */
-/* =============================== */
 .local-nav {
     position: fixed;
     top: 0;
@@ -185,7 +176,6 @@ body {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    /* Ensure it takes full width */
 }
 
 .local-nav-title {
@@ -206,7 +196,6 @@ body {
     align-items: center;
     gap: 24px;
     margin-left: auto;
-    /* Pushes this group to the right */
 }
 
 .local-nav-links a {
@@ -250,9 +239,6 @@ body {
     }
 }
 
-/* =============================== */
-/* Hero Section                    */
-/* =============================== */
 .hero-section {
     min-height: 95vh;
     display: flex;
@@ -267,7 +253,6 @@ body {
 .hero-text-container {
     margin-bottom: -135px;
     position: relative;
-    /* Add this */
     z-index: 2;
 }
 
@@ -296,7 +281,6 @@ body {
     display: grid;
     place-items: center;
     position: relative;
-    /* Add this */
     z-index: 1;
 }
 
@@ -345,9 +329,6 @@ body {
     color: var(--color-text-secondary);
 }
 
-/* =============================== */
-/* Highlights Section              */
-/* =============================== */
 .highlights-section {
     background-color: #1d1d1f;
     padding: 180px 0;
@@ -577,9 +558,6 @@ body {
     }
 }
 
-/* =============================== */
-/* M4 Chip Section                 */
-/* =============================== */
 .m4-chip-section {
     padding-top: 10vh;
     padding-bottom: 20vh;
@@ -757,9 +735,6 @@ body {
     }
 }
 
-/* =============================== */
-/* GPU Burst Section (New)         */
-/* =============================== */
 .gpu-burst-section {
     padding: 120px 0;
     text-align: center;
@@ -802,13 +777,10 @@ body {
 
 .gpu-burst-description {
     max-width: 500px;
-    /* Changed from 700px */
     margin: -70px auto 0 auto;
     font-size: 1.3rem;
     line-height: 1.5;
-    /* Changed from 1.6 */
     font-weight: 600;
-    /* Added this line */
     color: var(--color-text-secondary);
     padding: 0 20px;
 }
@@ -818,9 +790,6 @@ body {
     font-weight: 600;
 }
 
-/* =============================== */
-/* Footer Section                  */
-/* =============================== */
 .site-footer {
     background-color: #1d1d1f;
     color: var(--color-text-secondary);
@@ -931,7 +900,6 @@ body {
 }
 
 
-/* Responsive styles for footer */
 @media (max-width: 833px) {
     .footer-nav {
         grid-template-columns: repeat(3, 1fr);
