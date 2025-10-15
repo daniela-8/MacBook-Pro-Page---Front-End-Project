@@ -4,7 +4,8 @@ This repository contains the source code for a high-fidelity, fully responsive r
 
 The core of this project is the sophisticated integration of the GreenSock Animation Platform (GSAP) for timeline-based animations and Three.js for interactive 3D model rendering, all synchronized with user scroll events.
 
-  Core Features & Architecture
+Core Features & Architecture
+
 The application's dynamic behavior is driven by a carefully orchestrated system of animations and 3D rendering, primarily managed in js/main.js. This system deconstructs the user's scroll journey into a series of captivating visual scenes.
 
 Scroll-Triggered Animation System
@@ -31,14 +32,17 @@ Dynamic Sizing: JavaScript is used to dynamically detect the viewport size and a
 
 CSS Media Queries: The stylesheet in css/style.css makes extensive use of media queries to adapt the layout, typography, and spacing for different breakpoints. CSS variables are used for a maintainable and consistent theme.
 
-  Tech Stack
+Tech Stack
+
 Core Framework: HTML5, CSS3, JavaScript (ES6 Modules)
 
 Animation Engine: GSAP (GreenSock Animation Platform) - Specifically leveraging the Core and the ScrollTrigger plugin for high-performance, timeline-based animations.
 
 3D Rendering: Three.js - For loading and manipulating the 3D MacBook model in the browser.
 
-Assets: All images, videos, and 3D models are hosted locally within the public/ directory.
+Assets: All images, videos, and 3D models are hosted locally within the assets/ directory.
+
+
 
   Project Structure
 MacBook-Pro-Page---Front-End-Project/
