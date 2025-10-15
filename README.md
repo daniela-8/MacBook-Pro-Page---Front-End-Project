@@ -43,15 +43,49 @@ Assets: All images, videos, and 3D models are hosted locally within the public/ 
   Project Structure
 MacBook-Pro-Page---Front-End-Project/
 ```
-MacBook-Pro-Page---Front-End-Project/
-├── assets/
-│   ├── images/
-│   └── videos/
-├── css/
+.
+├── assets
+│   ├── images
+│   │   ├── gpu
+│   │   │   ├── hardware.jpg
+│   │   │   ├── screen-1.png
+│   │   │   ├── screen-2.png
+│   │   │   ├── screen-3.png
+│   │   │   ├── screen-4.png
+│   │   │   ├── screen-5.png
+│   │   │   └── screen-6.png
+│   │   ├── highlights_apple_intelligence_siri__d970vf0sy32a_large_2x.jpg
+│   │   ├── highlights_battery__ua2dmuk7jvmm_large_2x.jpg
+│   │   ├── highlights_display__ed8l4csvmfee_large_2x.jpg
+│   │   ├── performance_endframe__dspvqz8ncdoy_large.jpg
+│   │   ├── performance_startframe__czjd9afmxiqa_large.jpg
+│   │   └── welcome_hero_endframe__c61x1mv7kgqe_large.jpg
+│   └── videos
+│       ├── highlight.mp4
+│       ├── highlight2.mp4
+│       ├── laptop.mp4
+│       └── large.mp4
+├── css
+│   ├── base
+│   │   ├── _base.css
+│   │   └── _variables.css
+│   ├── components
+│   │   ├── _footer.css
+│   │   ├── _gpu-burst.css
+│   │   ├── _header.css
+│   │   ├── _hero.css
+│   │   ├── _highlights.css
+│   │   └── _m4-chip.css
 │   └── style.css
-├── js/
-│   └── main.js
-└── index.html
+├── index.html
+└── js
+    ├── main.js
+    └── modules
+        ├── chipAnimation.js
+        ├── gallery.js
+        ├── gpuAnimation.js
+        ├── headerScroll.js
+        └── heroAnimation.js
 ```
   Configuration & Setup
 This project is a static website and does not require a complex build process. You only need a modern web browser and a local web server to run it.
