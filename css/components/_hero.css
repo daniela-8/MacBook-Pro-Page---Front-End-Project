@@ -1,0 +1,89 @@
+.hero-section {
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    padding-top: 150px;
+    overflow: hidden;
+}
+
+.hero-text-container {
+    margin-bottom: -135px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 450;
+    letter-spacing: .01em;
+    color: #ffffff;
+    margin-top: 100px;
+    margin-bottom: -150px;
+}
+
+.hero-subtitle-image {
+    width: 90%;
+    max-width: 850px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.hero-image-container {
+    width: 100%;
+    max-width: 1400px;
+    margin-top: -50px;
+    display: grid;
+    place-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-media {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    grid-area: 1 / 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#hero-endframe {
+    opacity: 0;
+    z-index: 1;
+}
+
+#hero-video {
+    z-index: 2;
+}
+
+.hero-cta-container {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.buy-button {
+    background-color: #0071e3;
+    color: #fff;
+    border: none;
+    border-radius: 980px;
+    padding: 15px 29px;
+    font-size: 18px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+    background-color: #0077ed;
+}
+
+.pricing-text {
+    margin-top: 45px;
+    font-size: 20px;
+    color: var(--color-text-secondary);
+}

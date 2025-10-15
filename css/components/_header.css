@@ -1,0 +1,218 @@
+.main-header {
+    background-color: rgba(29, 29, 31, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+#initial-headers {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
+}
+
+#initial-headers.is-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.main-nav {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 22px;
+}
+
+.nav-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+}
+
+.nav-item a {
+    display: inline-block;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-size: 12px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    padding: 0 8px;
+}
+
+.nav-item a:hover {
+    opacity: 1;
+}
+
+.nav-item svg {
+    fill: currentColor;
+    display: block;
+}
+
+.globalnav-link-apple,
+.global-link-search,
+.global-link-bag {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    height: 44px;
+}
+
+.globalnav-link-apple svg {
+    position: relative;
+    top: 4px;
+    fill: var(--color-text-primary);
+}
+
+.globalnav-link-search svg {
+    position: relative;
+    top: 4px;
+    fill: var(--color-text-primary);
+}
+
+.globalnav-link-bag svg {
+    position: relative;
+    top: 5px;
+    fill: var(--color-text-primary);
+}
+
+.globalnav-link-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.globalnav-image-compact {
+    display: none;
+}
+
+@media (max-width: 833px) {
+    .nav-item:not(:first-child):not(:nth-last-child(1)):not(:nth-last-child(2)) a {
+        display: none;
+    }
+
+    .globalnav-image-regular {
+        display: none;
+    }
+
+    .globalnav-image-compact {
+        display: inline-block;
+    }
+}
+
+.sub-header {
+    padding: 12px 0;
+    background-color: #1d1d1f;
+    text-align: center;
+    font-size: 14px;
+}
+
+.sub-header a {
+    color: #2997ff;
+    text-decoration: none;
+}
+
+.sub-header a:hover {
+    text-decoration: underline;
+}
+
+.local-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(29, 29, 31, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    z-index: 998;
+    min-height: 52px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+    display: flex;
+    align-items: center;
+}
+
+.local-nav.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.local-nav-content {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.local-nav-title {
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.local-nav-links {
+    display: flex;
+    list-style: none;
+    margin-left: 50px;
+    flex-grow: 1;
+}
+
+.local-nav-group-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: auto;
+}
+
+.local-nav-links a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 12px;
+    padding: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.local-nav-links a:hover {
+    color: var(--color-text-primary);
+}
+
+.local-nav-links a.current {
+    color: var(--color-text-primary);
+}
+
+.local-nav-buy-button {
+    background-color: #0071e3;
+    color: #fff;
+    border: none;
+    border-radius: 980px;
+    padding: 4px 11px;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease-out;
+    position: relative;
+    top: 1.5px;
+}
+
+.local-nav-buy-button:hover {
+    background-color: #0077ed;
+}
+
+@media (max-width: 833px) {
+    .local-nav-links {
+        display: none;
+    }
+}
