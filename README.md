@@ -116,6 +116,5 @@ Bash
 python -m http.server
 Alternatively, you can use the Live Server extension for VS Code.
 
-Open the project in your browser:
-Navigate to http://127.0.0.1:8000 (or the address provided by your local server).
+
 
